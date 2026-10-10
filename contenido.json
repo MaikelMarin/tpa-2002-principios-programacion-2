@@ -1,5 +1,22 @@
 [
   {
+    "id": "00-fundamentos",
+    "title": "Fundamentos",
+    "icon": "📚",
+    "files": [
+      {
+        "name": "Índice",
+        "path": "00-fundamentos/README.md",
+        "type": "readme"
+      },
+      {
+        "name": "Teoría",
+        "path": "00-fundamentos/teoria.md",
+        "type": "teoria"
+      }
+    ]
+  },
+  {
     "id": "01-recursividad",
     "title": "Recursividad",
     "icon": "🔄",
