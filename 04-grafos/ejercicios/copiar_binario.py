@@ -31,4 +31,4 @@ if __name__ == "__main__":
 
     os.remove("test_origen.bin")
     os.remove("test_destino.bin")
-    print("✓ Archivo binario copiado correctamente")
+    print("✓ Todas las pruebas pasaron")
