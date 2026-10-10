@@ -1,93 +1,158 @@
 # Teoría: Métodos de Ordenamiento y Búsqueda
 
+## Prerequisitos
+
+| Apartado de `00-fundamentos` | Por qué se necesita aquí |
+|-------------------------------|--------------------------|
+| **2. Notación asintótica** | Todo el tema habla de O, Θ y Ω. Sin ella, las tablas de complejidad son decorativas |
+| **4. Logaritmos** | La búsqueda binaria es `log n`; Quick Sort y Merge Sort son `n log n` |
+| **5. Sumatorias** | Bubble, Selection e Insertion se analizan con `Σ i = n(n+1)/2` |
+| **6. Análisis e invariantes** | Cada algoritmo de ordenamiento tiene un invariante que garantiza su corrección |
+| **7. Recurrencias** | Merge Sort y Quick Sort se analizan resolviendo `T(n) = 2T(n/2) + f(n)` |
+| **8. Estructuras (arreglo)** | Todos estos algoritmos operan sobre arreglos; el acceso O(1) por índice es su premisa |
+
 ---
 
 ## 1. Introducción
 
-### 1.1 Definición del problema
+### 1.1 Definición de los problemas
 
-**Ordenamiento:** Dada una secuencia de n elementos de un conjunto totalmente ordenado, producir una permutación de la secuencia tal que cada elemento sea menor o igual que su sucesor.
+**Ordenamiento.** Dada una secuencia de n elementos de un conjunto totalmente ordenado, producir una permutación tal que cada elemento sea menor o igual que su sucesor.
 
-**Búsqueda:** Dada una secuencia y un valor objetivo, determinar si el objetivo existe en la secuencia y, en su caso, en qué posición.
+Entrada: `⟨a₁, a₂, ..., aₙ⟩`
+Salida: `⟨a'₁, a'₂, ..., a'ₙ⟩` donde `a'₁ ≤ a'₂ ≤ ... ≤ a'ₙ`
+
+**Búsqueda.** Dada una secuencia y un valor objetivo, determinar si existe y en qué posición.
+
+**¿Por qué importan?** Ordenar es el paso previo de muchísimas operaciones: la búsqueda binaria requiere orden; el merge de dos listas requiere orden; agrupar y reportar requiere orden. Se estima que una fracción significativa de todo el cómputo mundial es ordenamiento.
 
 ### 1.2 Contexto histórico
 
 | Año | Hito | Detalle |
 |-----|------|---------|
-| 1945 | Merge Sort | John von Neumann describe el algoritmo en un memorando durante el proyecto Manhattan |
-| 1946 | Búsqueda binaria | John Mauchly la describe en una conferencia; primer uso en computación |
+| 1945 | Merge Sort | Von Neumann lo describe en un memorando durante el Proyecto Manhattan |
+| 1946 | Búsqueda binaria | John Mauchly la presenta en una conferencia |
 | 1956 | Bubble Sort | Edward Harry Friend la publica como algoritmo de enseñanza |
-| 1960 | Quick Sort | Tony Hoare la inventa en la Universidad de Moscú mientras traducía del ruso |
-| 1962 | Quick Sort publicado | Se publica formalmente en *Computer Journal* |
-| 1964 | Heap Sort | J. W. J. Williams publica el algoritmo; luego refinado por Floyd |
-| 1970s | Límite inferior | Se demuestra que todo ordenamiento por comparación requiere Ω(n log n) comparaciones |
-| 1990s | Algoritmos híbridos | TimSort (Python), Introsort (C++), Dual-Pivot Quicksort (Java) |
-| Hoy | Estado del arte | std::sort (Introsort), TimSort, PDQSort; ordenamientos lineales (Counting, Radix) |
+| 1959 | Shell Sort | Donald Shell publica su mejora de Insertion Sort |
+| 1960 | Quick Sort | Tony Hoare la inventa en la Universidad de Moscú mientras trabajaba en traducción automática |
+| 1962 | Quick Sort publicado | Se publica formalmente en *The Computer Journal* |
+| 1964 | Heap Sort | J. W. J. Williams publica el algoritmo; Floyd lo refina |
+| 1970s | Cota inferior | Se demuestra que todo ordenamiento por comparaciones requiere Ω(n log n) |
+| 1990s | TimSort | Tim Peters lo diseña para Python; hoy es estándar en Python y Java (objetos) |
+| 1996 | Introsort | David Musser lo diseña para C++ STL; hoy es `std::sort` |
+| 2009 | PDQSort | Orson Peters lo publica; usado en Rust y versiones recientes de C++ |
 
-### 1.3 Notación asintótica
+### 1.3 El modelo de comparación
 
-| Notación | Significado |
-|----------|-------------|
-| O(g(n)) | Cota superior: T(n) crece a lo sumo como g(n) |
-| Ω(g(n)) | Cota inferior: T(n) crece al menos como g(n) |
-| Θ(g(n)) | Cota ajustada: T(n) crece exactamente como g(n)) |
-| o(g(n)) | Estrictamente menor |
+En el **modelo de comparación**, el algoritmo solo obtiene información del orden comparando pares de elementos. No puede inspectar bits ni asumir estructura de los datos.
 
-### 1.4 Modelo de comparación
+**Teorema (cota inferior del ordenamiento).** Todo algoritmo de ordenamiento basado en comparaciones requiere **Ω(n log n)** comparaciones en el peor caso.
 
-En el modelo de comparación, el algoritmo solo obtiene información del orden comparando pares de elementos. El resultado fundamental:
+**Demostración por árbol de decisión.**
 
-> **Teorema (cota inferior de ordenamiento):** Todo algoritmo de ordenamiento basado en comparaciones requiere Ω(n log n) comparaciones en el peor caso.
+Cualquier algoritmo de ordenamiento por comparaciones puede modelarse como un árbol de decisión binario:
+- Cada nodo interno es una comparación `aᵢ ≤ aⱼ` con dos salidas (sí / no).
+- Cada hoja es una permutación, es decir, un orden de salida posible.
+- El camino raíz → hoja describe las comparaciones hechas para una entrada concreta.
 
-**Demostración (bosquejo):** Cualquier algoritmo de ordenamiento por comparaciones puede modelarse como un árbol de decisión binario. Con n elementos hay n! permutaciones posibles; el árbol debe tener al menos n! hojas. Un árbol binario de altura h tiene como máximo `2^h` hojas, así que `2^h ≥ n!`. Por la aproximación de Stirling, `log(n!) = Θ(n log n)`, luego `h = Ω(n log n)`.
+Con n elementos hay `n!` permutaciones posibles, así que el árbol necesita **al menos n! hojas**.
 
-Consecuencia: Merge Sort y Heap Sort son **óptimos** en el modelo de comparación. Quick Sort lo es en promedio. Ningún ordenamiento con comparaciones puede hacerlo asintóticamente mejor.
+Un árbol binario de altura h tiene como máximo `2^h` hojas. Entonces:
 
-### 1.5 Propiedades deseables
+```
+2^h ≥ n!
+h ≥ log(n!)
+```
 
-| Propiedad | Significado | ¿Importa? |
-|-----------|-------------|-----------|
-| **Estabilidad** | Elementos iguales conservan su orden relativo | Sí al ordenar por múltiples claves |
-| **In-place** | Usa memoria extra O(1) | Sí en sistemas embebidos |
-| **Adaptativo** | Más rápido con datos parcialmente ordenados | Sí en datos casi ordenados |
-| **Online** | Puede ordenar mientras recibe datos | Sí en streaming |
-| **Paralelizable** | Se puede dividir en subproblemas | Sí en big data |
+Por la aproximación de Stirling, `log(n!) = Θ(n log n)`. Luego:
+
+```
+h = Ω(n log n)
+```
+
+La altura del árbol es el peor caso del algoritmo. ∎
+
+**Consecuencias directas:**
+1. Merge Sort y Heap Sort son **óptimos**: alcanzan la cota.
+2. Quick Sort es óptimo **en promedio**.
+3. Ningún algoritmo por comparaciones puede ser asintóticamente mejor.
+4. Para romper la barrera hay que salir del modelo: Counting Sort, Radix Sort y Bucket Sort explotan estructura de los datos y llegan a O(n).
 
 ---
 
-## 2. Ordenamientos de comparación
+## 2. Propiedades de los algoritmos de ordenamiento
 
-### 2.1 Burbuja (Bubble Sort)
+| Propiedad | Significado | ¿Cuándo importa? |
+|-----------|-------------|------------------|
+| **Estabilidad** | Elementos iguales conservan su orden relativo de entrada | Al ordenar por múltiples claves en pasadas separadas |
+| **In-place** | Usa memoria auxiliar O(1) | Sistemas embebidos, datos muy grandes |
+| **Adaptativo** | Más rápido con datos parcialmente ordenados | Datos casi ordenados (logs, correcciones) |
+| **Online** | Puede ordenar mientras recibe datos | Streaming |
+| **Paralelizable** | Se divide en subproblemas independientes | Big data (tema 06) |
 
-**Principio:** Recorrer la lista repetidamente comparando elementos adyacentes; intercambiar si están en orden incorrecto. Optimización: si una pasada no hace intercambios, la lista está ordenada.
+**Estabilidad con ejemplo.** Ordene por (apellido) una lista ya ordenada por (nombre):
+
+```
+Entrada (ordenada por nombre):      Salida deseada (estable):
+  Ana Torres                         Ana Torres
+  Luis Torres                        Luis Torres
+  Ana Rojas                          Ana Rojas
+  Luis Rojas                         Luis Rojas
+```
+
+Un algoritmo **estable** conserva que Ana Torres sigue antes que Luis Torres. Uno **inestable** los podría invertir. Si luego quiere ordenar por ambos criterios, la estabilidad es obligatoria.
+
+---
+
+## 3. Ordenamientos cuadráticos
+
+### 3.1 Burbuja (Bubble Sort)
+
+**Invariante.** Tras la pasada i, los i últimos elementos están en su posición final y son los i mayores.
+
+**Estrategia.** Recorrer la lista comparando pares adyacentes; intercambiar si están en orden inverso. Tras una pasada completa, el mayor quedó al final.
 
 ```python
 def burbuja(arr):
     n = len(arr)
     for i in range(n):
         intercambio = False
-        for j in range(n - i - 1):
+        for j in range(n - i - 1):        # los i últimos ya están fijos
             if arr[j] > arr[j + 1]:
                 arr[j], arr[j + 1] = arr[j + 1], arr[j]
                 intercambio = True
-        if not intercambio:
+        if not intercambio:                # optimización
             break
     return arr
 ```
 
-**Análisis:**
-- Mejor caso: O(n) — lista ya ordenada (una sola pasada).
-- Promedio: O(n²).
-- Peor caso: O(n²) — lista en orden inverso.
-- Inversiones: realiza exactamente una operación de intercambio por cada inversión en la lista.
+**Análisis exacto de comparaciones.**
+
+| Pasada i | Comparaciones |
+|----------|---------------|
+| 0 | n − 1 |
+| 1 | n − 2 |
+| ... | ... |
+| n − 1 | 0 |
+
+Total: `(n−1) + (n−2) + ... + 0 = (n−1)n/2 = Θ(n²)`
+
+**Casos:**
+- Mejor (ya ordenado): `O(n)` — una pasada sin intercambios, gracias a la optimización.
+- Promedio: `Θ(n²)`.
+- Peor (orden inverso): `Θ(n²)`.
+
+**Intercambios.** Exactamente uno por cada **inversión** del arreglo. En el peor caso hay `n(n−1)/2` inversiones.
 
 **Propiedades:** Estable, in-place, adaptativo.
 
-**Uso real:** Docencia. Nunca en producción. Su valor es pedagógico: es el algoritmo más simple de analizar.
+**Veredicto.** Solo docente. Nunca en producción. Su valor es que es el algoritmo más fácil de analizar correctamente, y por eso abre el tema.
 
-### 2.2 Selección (Selection Sort)
+### 3.2 Selección (Selection Sort)
 
-**Principio:** Encontrar el mínimo de la región no ordenada e intercambiarlo con el primer elemento no ordenado. Repetir.
+**Invariante.** Tras la pasada i, los primeros i elementos son los i menores, en orden.
+
+**Estrategia.** Buscar el mínimo de la región no ordenada e intercambiarlo con el primer elemento de esa región.
 
 ```python
 def seleccion(arr):
@@ -101,17 +166,17 @@ def seleccion(arr):
     return arr
 ```
 
-**Análisis:**
-- Siempre O(n²): exactamente `n(n-1)/2` comparaciones, independientemente del orden.
-- Intercambios: exactamente n-1 (el mínimo posible de intercambios).
+**Análisis.** Comparaciones: **siempre** `n(n−1)/2 = Θ(n²)`, sin importar el orden de entrada. Intercambios: exactamente `n − 1`.
 
 **Propiedades:** No estable, in-place, **no adaptativo**.
 
-**Uso real:** Cuando el costo de escritura/intercambio es muy superior al de lectura (memorias flash, EEPROM), porque realiza el mínimo número de escrituras posible.
+**Cuándo tiene sentido.** Cuando escribir es mucho más caro que leer: memorias flash, EEPROM, registros en disco. Es el algoritmo con el **mínimo número de escrituras** posible (`n−1` intercambios), y en esos soportes eso importa más que el número de comparaciones.
 
-### 2.3 Inserción (Insertion Sort)
+### 3.3 Inserción (Insertion Sort)
 
-**Principio:** Construir la lista ordenada de izquierda a derecha. Para cada nuevo elemento, desplazar los mayores hacia la derecha e insertarlo en su posición.
+**Invariante.** Tras la iteración i, el subarreglo `arr[0..i]` está ordenado.
+
+**Estrategia.** Como ordenar cartas en la mano: tomar el siguiente elemento, desplazar los mayores hacia la derecha, e insertarlo en su posición.
 
 ```python
 def insercion(arr):
@@ -119,26 +184,34 @@ def insercion(arr):
         clave = arr[i]
         j = i - 1
         while j >= 0 and arr[j] > clave:
-            arr[j + 1] = arr[j]
+            arr[j + 1] = arr[j]        # desplazar
             j -= 1
-        arr[j + 1] = clave
+        arr[j + 1] = clave             # insertar
     return arr
 ```
 
-**Análisis:**
-- Mejor caso: O(n) — lista ordenada (solo n-1 comparaciones).
-- Promedio: O(n²) — `n²/4` inversiones.
-- Peor caso: O(n²) — orden inverso.
+**Análisis.**
+- Mejor (ordenado): `O(n)` — una comparación por elemento.
+- Promedio: `Θ(n²/4)` — la mitad del peor caso.
+- Peor (inverso): `Θ(n²/2)`.
 
-**Propiedades:** Estable, in-place, adaptativo, online.
+**Propiedades:** Estable, in-place, adaptativo, **online**.
 
-**Uso real:** El mejor algoritmo para listas pequeñas (n < ~20). TimSort e Introsort cambian a Inserción cuando las particiones bajan de cierto umbral. También se usa en sistemas casi ordenados (p. ej. corrección de datos levemente desordenados).
+**Por qué es el más importante de los tres.** Es el mejor algoritmo para arreglos pequeños (n ≲ 20). Por eso TimSort e Introsort cambian a Insertion Sort cuando las particiones bajan de un umbral. También es el más rápido cuando los datos están *casi* ordenados.
 
-### 2.4 Quick Sort
+**Análisis por inversiones.** El costo de Insertion Sort es proporcional al número de inversiones del arreglo. Si hay k inversiones, hace `O(n + k)` trabajo. Eso explica su adaptatividad: datos casi ordenados tienen pocas inversiones.
 
-**Principio (divide y vencerás):**
+---
+
+## 4. Ordenamientos eficientes
+
+### 4.1 Quick Sort
+
+**Invariante de la partición.** Tras particionar alrededor del pivote p: todo elemento a la izquierda es ≤ p, todo elemento a la derecha es ≥ p, y p está en su posición final.
+
+**Estrategia (divide y vencerás).**
 1. Elegir un pivote.
-2. **Particionar:** reorganizar la lista de modo que los elementos menores que el pivote queden a la izquierda y los mayores a la derecha.
+2. **Particionar** el arreglo alrededor del pivote.
 3. Ordenar recursivamente cada partición.
 
 ```python
@@ -146,45 +219,80 @@ def quick_sort(arr):
     if len(arr) <= 1:
         return arr
     pivote = arr[len(arr) // 2]
-    izquierda = [x for x in arr if x < pivote]
-    medio = [x for x in arr if x == pivote]
-    derecha = [x for x in arr if x > pivote]
+    izquierda  = [x for x in arr if x < pivote]
+    medio      = [x for x in arr if x == pivote]
+    derecha    = [x for x in arr if x > pivote]
     return quick_sort(izquierda) + medio + quick_sort(derecha)
 ```
 
-**Análisis de complejidad:**
-- Si el pivote divide equilibradamente: `T(n) = 2T(n/2) + O(n) = Θ(n log n)`.
-- Si el pivote es siempre el mínimo o máximo: `T(n) = T(n-1) + O(n) = Θ(n²)`.
-- Promedio sobre todas las permutaciones: Θ(n log n).
+Esta versión es clara pero **no es in-place** (crea listas nuevas) y no es estable.
 
-**Optimizaciones prácticas:**
-- **Pivote aleatorio:** Evita el peor caso en datos patológicos.
-- **Mediana de tres:** Probar el primero, el del medio y el último; usar la mediana como pivote.
-- **Partición de tres vías (3-way):** Agrupar elementos iguales al pivote. Clave cuando hay muchos duplicados.
-- **Umbral de inserción:** Cambiar a Insertion Sort cuando la partición es pequeña.
+**Versión in-place (partición de Lomuto).** Es la que se usa en la práctica:
 
-**Propiedades:** No estable, in-place (en su forma con partición de Hoare/Lomuto).
+```python
+def quick_sort_inplace(arr, bajo=0, alto=None):
+    if alto is None:
+        alto = len(arr) - 1
+    if bajo < alto:
+        pi = particion(arr, bajo, alto)
+        quick_sort_inplace(arr, bajo, pi - 1)
+        quick_sort_inplace(arr, pi + 1, alto)
+    return arr
 
-**Uso real:** El algoritmo de ordenamiento de propósito general más usado históricamente. Base de Introsort (C++ STL) y Dual-Pivot Quicksort (Java para primitivos).
+def particion(arr, bajo, alto):
+    pivote = arr[alto]              # pivote = último elemento
+    i = bajo - 1                    # frontera de los menores
+    for j in range(bajo, alto):
+        if arr[j] <= pivote:
+            i += 1
+            arr[i], arr[j] = arr[j], arr[i]
+    arr[i + 1], arr[alto] = arr[alto], arr[i + 1]
+    return i + 1                    # posición final del pivote
+```
 
-### 2.5 Merge Sort
+**Análisis de complejidad.**
 
-**Principio (divide y vencerás):**
-1. Dividir la lista en dos mitades.
+| Elección del pivote | Recurrencia | Solución |
+|---------------------|-------------|----------|
+| Siempre el del medio (equilibrado) | `T(n) = 2T(n/2) + O(n)` | `Θ(n log n)` |
+| Siempre el mínimo o máximo | `T(n) = T(n-1) + O(n)` | `Θ(n²)` |
+| Aleatorio (promedio) | Esperanza | `Θ(n log n)` |
+
+Por Teorema Maestro, el caso equilibrado es `a=2, b=2, c=1`, `f(n)=n=Θ(n^c)` → caso 2 → `Θ(n log n)`.
+
+**Por qué el peor caso es real.** Si el arreglo ya está ordenado y se toma el último elemento como pivote, cada partición separa un solo elemento: `T(n) = T(n-1) + O(n) = Θ(n²)`. Es un fallo documentado de implementaciones naif que provocó problemas de rendimiento en sistemas reales.
+
+**Optimizaciones prácticas.**
+- **Pivote aleatorio:** elimina el peor caso para entradas patológicas.
+- **Mediana de tres:** probar el primero, el del medio y el último; usar la mediana.
+- **Partición de tres vías:** agrupar los elementos iguales al pivote. Clave con muchos duplicados.
+- **Umbral de inserción:** cambiar a Insertion Sort cuando la partición es pequeña (≲ 16).
+- **IntroSort:** si la recursión se profundiza demasiado, cambiar a Heap Sort. Así se garantiza `O(n log n)` en el peor caso. Es `std::sort`.
+
+**Propiedades:** No estable, in-place (en la versión de partición), no adaptativo.
+
+**Por qué gana en la práctica pese a tener el mismo `n log n` que Merge Sort.** Localidad de caché (00-fundamentos §9.3): Quick Sort recorre el arreglo secuencialmente y aprovecha las líneas de caché; Merge Sort copia a memoria auxiliar. En datos reales Quick Sort suele ser 2-3× más rápido.
+
+### 4.2 Merge Sort
+
+**Invariante de la mezcla.** Al mezclar dos subarreglos ordenados, `resultado` contiene los menores elementos ya ordenados de ambos.
+
+**Estrategia (divide y vencerás).**
+1. Dividir el arreglo en dos mitades.
 2. Ordenar recursivamente cada mitad.
-3. Mezclar (merge) las dos mitades ordenadas en una sola.
+3. **Mezclar** las dos mitades ordenadas en una sola.
 
 ```python
 def merge(izq, der):
     resultado = []
     i = j = 0
     while i < len(izq) and j < len(der):
-        if izq[i] <= der[j]:
+        if izq[i] <= der[j]:          # ≤ conserva la estabilidad
             resultado.append(izq[i]); i += 1
         else:
             resultado.append(der[j]); j += 1
-    resultado.extend(izq[i:])
-    resultado.extend(der[j:])
+    resultado.extend(izq[i:])          # resto de la izquierda
+    resultado.extend(der[j:])          # resto de la derecha
     return resultado
 
 def merge_sort(arr):
@@ -194,52 +302,116 @@ def merge_sort(arr):
     return merge(merge_sort(arr[:m]), merge_sort(arr[m:]))
 ```
 
-**Análisis:**
-- Recurrencia: `T(n) = 2T(n/2) + Θ(n)`.
-- Por Teorema Maestro: `Θ(n log n)` **siempre**, sin excepciones. Predecible.
-- Espacio: O(n) auxiliar para la mezcla.
+**Análisis.** `T(n) = 2T(n/2) + Θ(n)`. Teorema Maestro caso 2 → **`Θ(n log n)` siempre**, sin excepciones.
 
-**Propiedades:** Estable, no in-place, no adaptativo pero predecible.
+**Traza de la mezcla** para `izq=[2,5,8]`, `der=[1,3,9]`:
 
-**Uso real:**
-- Ordenamiento externo (datos que no caben en memoria): Merge Sort es ideal porque procesa secuencialmente.
-- Listas enlazadas: no requiere acceso aleatorio, solo división y mezcla.
-- TimSort (Python): Merge Sort mejorado con detección de corridas ordenadas.
-- Bases de datos: ordenamiento de tablas que exceden la memoria.
+| Paso | i | j | Comparación | resultado |
+|------|---|---|-------------|-----------|
+| 1 | 0 | 0 | 2 vs 1 → toma der | [1] |
+| 2 | 0 | 1 | 2 vs 3 → toma izq | [1,2] |
+| 3 | 1 | 1 | 5 vs 3 → toma der | [1,2,3] |
+| 4 | 1 | 2 | 5 vs 9 → toma izq | [1,2,3,5] |
+| 5 | 2 | 2 | 8 vs 9 → toma izq | [1,2,3,5,8] |
+| 6 | — | — | izq agotada | [1,2,3,5,8,9] |
 
-### 2.6 Heap Sort (referencia)
+**Por qué `≤` y no `<` en la comparación.** Cuando los elementos son iguales, tomar primero de la izquierda preserva el orden original. Con `<` se volvería inestable.
 
-**Principio:** Construir un heap máximo con los elementos; extraer repetidamente el máximo.
+**Propiedades:** Estable, no in-place (O(n) auxiliar), no adaptativo pero **predecible**.
 
-**Propiedades:** No estable, in-place, siempre Θ(n log n). No adaptativo. Peor uso de caché que Quick Sort por accesos no locales.
+**Cuándo usar Merge Sort y no Quick Sort:**
+1. **Ordenamiento externo** (datos que no caben en RAM, tema 06): Merge Sort lee y escribe secuencialmente, que es el modo más rápido en disco.
+2. **Listas enlazadas:** no necesita acceso aleatorio, solo dividir y mezclar secuencialmente.
+3. **Cuando se requiere estabilidad garantizada.**
+4. **Cuando se necesita la garantía de `O(n log n)` en el peor caso** (sistemas con requisitos de tiempo real).
 
----
+### 4.3 Heap Sort (referencia)
 
-## 3. Ordenamientos lineales (sin comparación)
+**Estrategia.** Construir un heap máximo con los elementos; extraer repetidamente el máximo y ponerlo al final.
 
-Cuando se conocen restricciones sobre los datos (enteros en rango acotado, cadenas de longitud fija), se puede ordenar en O(n):
+**Propiedades:** No estable, in-place, **siempre** `Θ(n log n)`.
 
-| Algoritmo | Idea | Complejidad | Requisito |
-|-----------|------|-------------|-----------|
-| Counting Sort | Contar ocurrencias de cada valor | O(n + k) | Enteros en rango k |
-| Radix Sort | Ordenar por dígito, de menos a más significativo | O(d × (n + k)) | d dígitos, rango k |
-| Bucket Sort | Distribuir en cubos por rango y ordenar cada cubo | O(n) promedio | Distribución uniforme |
-
-**Conclusión clave:** Romper la barrera de Ω(n log n) requiere explotar información sobre la estructura de los datos, no solo compararlos.
+**Por qué no es el más usado pese a sus garantías.** Peor localidad de caché: saltar por el árbol genera más fallos de caché que recorrer un arreglo. En la práctica es más lento que Quick Sort, aunque su peor caso esté garantizado.
 
 ---
 
-## 4. Búsqueda
+## 5. Ordenamientos lineales (sin comparación)
 
-### 4.1 Búsqueda lineal
+Si se conoce estructura de los datos, se puede saltar la barrera de `n log n`.
 
-Revisar cada elemento secuencialmente. Complejidad: Θ(n). Funciona en listas desordenadas. No requiere precondiciones.
+### 5.1 Counting Sort
 
-### 4.2 Búsqueda binaria
+**Idea.** Contar cuántas veces aparece cada valor, y usar esos conteos para colocar cada elemento directamente.
 
-**Precondición:** La lista debe estar ordenada.
+```python
+def counting_sort(arr, k):
+    """Ordena enteros en el rango [0, k]."""
+    conteo = [0] * (k + 1)
+    for x in arr:
+        conteo[x] += 1
+    resultado = []
+    for valor in range(k + 1):
+        resultado.extend([valor] * conteo[valor])
+    return resultado
+```
 
-**Principio:** Comparar con el elemento central; descartar la mitad que no puede contener al objetivo; repetir.
+**Complejidad:** `Θ(n + k)`. **Estable** si se acumulan los conteos como posiciones finales.
+
+**Limitación:** solo enteros en un rango acotado. Para k = 10⁹ y n = 100, reservar 10⁹ posiciones es absurdo.
+
+### 5.2 Radix Sort
+
+**Idea.** Ordenar por dígito, del menos significativo al más significativo. Cada pasada es un Counting Sort sobre un dígito.
+
+```python
+def radix_sort(arr):
+    exp = 1
+    maximo = max(arr)
+    while maximo // exp > 0:
+        counting_sort_por_digito(arr, exp)
+        exp *= 10
+    return arr
+```
+
+**Complejidad:** `Θ(d · (n + k))` donde d es el número de dígitos y k el rango de un dígito (10).
+
+**Ventaja:** funciona con rangos enormes siempre que el número de dígitos sea moderado.
+
+### 5.3 Bucket Sort
+
+**Idea.** Distribuir los elementos en cubos según su rango, ordenar cada cubo (con Insertion, típicamente), y concatenar.
+
+**Complejidad:** `Θ(n)` promedio con distribución uniforme; `Θ(n²)` peor caso si todo cae en un cubo.
+
+---
+
+## 6. Comparativa completa
+
+| Algoritmo | Mejor | Promedio | Peor | Estable | In-place | Adaptativo |
+|-----------|-------|----------|------|---------|----------|------------|
+| Burbuja | `O(n)` | `Θ(n²)` | `Θ(n²)` | Sí | Sí | Sí |
+| Selección | `Θ(n²)` | `Θ(n²)` | `Θ(n²)` | No | Sí | No |
+| Inserción | `O(n)` | `Θ(n²)` | `Θ(n²)` | Sí | Sí | Sí |
+| Shell | `O(n log n)` | ~`Θ(n^1.3)` | `Θ(n²)` | No | Sí | — |
+| Quick Sort | `O(n log n)` | `Θ(n log n)` | `Θ(n²)` | No | Sí | No |
+| Merge Sort | `Θ(n log n)` | `Θ(n log n)` | `Θ(n log n)` | Sí | No | No |
+| Heap Sort | `Θ(n log n)` | `Θ(n log n)` | `Θ(n log n)` | No | Sí | No |
+| Counting | `Θ(n+k)` | `Θ(n+k)` | `Θ(n+k)` | Sí | No | No |
+| Radix | `Θ(d(n+k))` | `Θ(d(n+k))` | `Θ(d(n+k))` | Sí | No | No |
+
+---
+
+## 7. Búsqueda
+
+### 7.1 Búsqueda lineal
+
+Recorrer secuencialmente. `Θ(n)`. Funciona en listas desordenadas y es la única opción si no hay orden. No requiere precondiciones.
+
+### 7.2 Búsqueda binaria
+
+**Precondición obligatoria:** la lista debe estar ordenada.
+
+**Invariante del bucle.** Si x está en el arreglo, entonces está en `arr[izq..der]`.
 
 ```python
 def busqueda_binaria(arr, objetivo):
@@ -249,15 +421,15 @@ def busqueda_binaria(arr, objetivo):
         if arr[medio] == objetivo:
             return medio
         elif arr[medio] < objetivo:
-            izq = medio + 1
+            izq = medio + 1          # descartar la mitad izquierda
         else:
-            der = medio - 1
+            der = medio - 1          # descartar la mitad derecha
     return -1
 ```
 
-**Análisis:** Recurrencia `T(n) = T(n/2) + O(1)`, luego `Θ(log n)`.
+**Complejidad.** `T(n) = T(n/2) + O(1)` → `Θ(log n)`.
 
-**Impacto práctico:**
+**Impacto cuantificado:**
 
 | Tamaño | Lineal | Binaria |
 |--------|--------|---------|
@@ -266,41 +438,55 @@ def busqueda_binaria(arr, objetivo):
 | 1,000,000 | 1,000,000 | 20 |
 | 1,000,000,000 | 10⁹ | 30 |
 
-**Variantes:**
-- Búsqueda del primer/último elemento igual (lower bound / upper bound).
-- Búsqueda en lista rotada.
-- Búsqueda de un valor en una matriz 2D ordenada.
-- Búsqueda exponencial (para listas infinitas o de tamaño desconocido).
+**Variantes.**
+- **Lower bound:** primer elemento ≥ objetivo (o su posición de inserción).
+- **Upper bound:** primer elemento > objetivo.
+- **Búsqueda en lista rotada:** determinar qué mitad está ordenada.
+- **Búsqueda exponencial:** para listas de tamaño desconocido o infinitas.
 
-### 4.3 Coste de ordenar antes de buscar
+### 7.3 Coste de ordenar antes de buscar
 
-Ordenar cuesta O(n log n); luego cada búsqueda cuesta O(log n). Interesa ordenar si se harán al menos Ω(log n) búsquedas. Análisis: `n log n + k log n` versus `k × n`. Ordenar gana cuando `k > log n / (1 - log n/n)`, es decir, desde unas pocas búsquedas.
+Ordenar cuesta `O(n log n)`. Después, cada búsqueda cuesta `O(log n)`.
 
----
+- k búsquedas sin ordenar: `k × O(n)`
+- k búsquedas ordenando primero: `O(n log n) + k × O(log n)`
 
-## 5. Comparativa completa
-
-| Algoritmo | Mejor | Promedio | Peor | Estable | In-place | Adaptativo | Notas |
-|-----------|-------|----------|------|---------|----------|------------|-------|
-| Burbuja | O(n) | O(n²) | O(n²) | Sí | Sí | Sí | Solo docente |
-| Selección | O(n²) | O(n²) | O(n²) | No | Sí | No | Mínimas escrituras |
-| Inserción | O(n) | O(n²) | O(n²) | Sí | Sí | Sí | Ideal para n pequeño |
-| Quick Sort | O(n log n) | O(n log n) | O(n²) | No | Sí | No | El más rápido en la práctica |
-| Merge Sort | O(n log n) | O(n log n) | O(n log n) | Sí | No | No | Ideal para externo |
-| Heap Sort | O(n log n) | O(n log n) | O(n log n) | No | Sí | No | Garantía sin memoria extra |
-| TimSort | O(n) | O(n log n) | O(n log n) | Sí | No | Sí | Python estándar |
-| Counting Sort | O(n+k) | O(n+k) | O(n+k) | Sí | No | No | Enteros acotados |
+Ordenar conviene cuando `n log n + k log n < k·n`, es decir, aproximadamente cuando `k > log n`. Para n = 1,000,000 eso son apenas ~20 búsquedas. **Ordenar casi siempre conviene** si se va a buscar más de unas pocas decenas de veces.
 
 ---
 
-## Bibliografía
+## 8. Resumen
 
-1. **Cormen, T. H., Leiserson, C. E., Rivest, R. L. & Stein, C.** *Introduction to Algorithms*, III ed. MIT Press, 2009. — Capítulos 2, 6, 7, 8 (límite inferior, Quick Sort, ordenamiento lineal).
-2. **Knuth, D. E.** *The Art of Computer Programming*, Vol. 3: Sorting and Searching, II ed. Addison-Wesley, 1998. — La referencia canónica.
-3. **Sedgewick, R. & Wayne, K.** *Algorithms*, IV ed. Addison-Wesley, 2011. — Capítulo 2: Sorting.
+| Si necesita... | Use... |
+|----------------|--------|
+| Ordenar de propósito general | Quick Sort (o el `sorted()` del lenguaje) |
+| Estabilidad garantizada | Merge Sort |
+| Peor caso garantizado sin memoria extra | Heap Sort |
+| Datos que no caben en RAM | Merge Sort (externo, tema 06) |
+| Arreglos pequeños (< 20) | Insertion Sort |
+| Datos casi ordenados | Insertion Sort o TimSort |
+| Enteros en rango acotado | Counting Sort o Radix Sort |
+| Mínimo número de escrituras | Selection Sort |
+| Buscar una vez en lista desordenada | Búsqueda lineal |
+| Buscar muchas veces | Ordenar + búsqueda binaria |
+
+**Los tres errores más frecuentes:**
+
+1. **Aplicar búsqueda binaria a una lista no ordenada.** Devuelve resultados incorrectos, no un error.
+2. **Elegir el último elemento como pivote de Quick Sort sin aleatorizar.** Convierte el caso promedio en `O(n²)` para entradas ordenadas.
+3. **Implementar una cola con `list.pop(0)`.** Es `O(n)`, no `O(1)`. Ver 00-fundamentos §8.5.
+
+---
+
+## Bibliografía anotada
+
+1. **Cormen, T. H., Leiserson, C. E., Rivest, R. L. & Stein, C.** *Introduction to Algorithms*, III ed. MIT Press, 2009. — Capítulos 2 (cota inferior), 6 (Heapsort), 7 (Quicksort), 8 (ordenamiento lineal).
+2. **Knuth, D. E.** *The Art of Computer Programming*, Vol. 3: Sorting and Searching, II ed. Addison-Wesley, 1998. — La referencia canónica, ~800 páginas sobre el tema.
+3. **Sedgewick, R. & Wayne, K.** *Algorithms*, IV ed. Addison-Wesley, 2011. — El tratamiento más claro y visual.
 4. **Weiss, M. A.** *Data Structures & Algorithm Analysis in C++*, III ed. Addison Wesley, 2006. — Capítulo 7.
 5. **Hoare, C. A. R.** "Quicksort", *The Computer Journal*, 5(1):10-16, 1962. — Artículo original de Quick Sort.
-6. **von Neumann, J.** "The Merge Sort", memorando interno, 1945. — Origen de Merge Sort.
+6. **Musser, D. R.** "Introspective Sorting and Selection Algorithms", *Software: Practice and Experience*, 27(8):983-993, 1997. — Origen de `std::sort`.
+7. **Peters, T.** "listobject.c timsort" y su descripción en https://github.com/python/cpython — Origen de TimSort.
 
 ## Recursos utilizados
 
@@ -308,3 +494,4 @@ Ordenar cuesta O(n log n); luego cada búsqueda cuesta O(log n). Interesa ordena
 - VisuAlgo — Ordenamiento: https://visualgo.net/en/sorting
 - Big-O Cheat Sheet: https://www.bigocheatsheet.com/
 - Python Documentation — Sorting HOW TO: https://docs.python.org/3/howto/sorting.html
+- cppreference — std::sort: https://en.cppreference.com/w/cpp/algorithm/sort

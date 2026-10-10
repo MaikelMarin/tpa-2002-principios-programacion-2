@@ -175,8 +175,20 @@
         "ext": "py"
       },
       {
+        "name": "Merge Sort Lista Enlazada",
+        "path": "02-ordenamiento-y-busqueda/ejercicios/merge_sort_lista_enlazada.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
         "name": "Ordenamiento Hibrido",
         "path": "02-ordenamiento-y-busqueda/ejercicios/ordenamiento_hibrido.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
+        "name": "Quick Sort",
+        "path": "02-ordenamiento-y-busqueda/ejercicios/quick_sort.py",
         "type": "ejercicio",
         "ext": "py"
       },
