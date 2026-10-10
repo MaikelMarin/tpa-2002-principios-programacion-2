@@ -1,0 +1,71 @@
+# ============================================
+# Archivos excluidos del repositorio
+# ============================================
+
+# --- Archivos de terceros (no soy el propietario) ---
+public_TPA-2002_Principios_de_Programación_2.pdf
+public_Cronograma_Principios_de_Programación_2.pdf
+*.pdf
+
+# --- Configuración de agentes / skills (local) ---
+.agents/
+AGENTS.md
+CLAUDE.md
+skills-lock.json
+SKILL.md
+.opencode/
+
+# --- Artefactos generados por los ejercicios ---
+# Los ejercicios de procesamiento de archivos crean datos de prueba
+06-grandes-datos/datos_masivos.csv
+06-grandes-datos/ventas.csv
+06-grandes-datos/numeros_desordenados.txt
+06-grandes-datos/numeros_ordenados.txt
+
+# Archivos de prueba generados al ejecutar ejercicios
+test.txt
+test.csv
+test.bin
+test.log
+test_origen.bin
+test_destino.bin
+datos_masivos.csv
+ventas.csv
+numeros_desordenados.txt
+numeros_ordenados.txt
+*.log
+app.log
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+.venv/
+venv/
+env/
+ENV/
+
+# --- Pruebas y cobertura ---
+.pytest_cache/
+.coverage
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+
+# --- Editores y sistemas operativos ---
+.vscode/
+.idea/
+*.swp
+*~
+.DS_Store
+Thumbs.db
+
+# --- Temporales ---
+*.tmp
+*.bak
+*_backup

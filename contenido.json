@@ -1,0 +1,590 @@
+[
+  {
+    "id": "01-recursividad",
+    "title": "Recursividad",
+    "icon": "🔄",
+    "files": [
+      {
+        "name": "Índice",
+        "path": "01-recursividad/README.md",
+        "type": "readme"
+      },
+      {
+        "name": "Teoría",
+        "path": "01-recursividad/teoria.md",
+        "type": "teoria"
+      },
+      {
+        "name": "Factorial",
+        "path": "01-recursividad/ejercicios/factorial.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
+        "name": "Fibonacci",
+        "path": "01-recursividad/ejercicios/fibonacci.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
+        "name": "Fibonacci Bottom Up",
+        "path": "01-recursividad/ejercicios/fibonacci_bottom_up.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
+        "name": "Fibonacci Memo",
+        "path": "01-recursividad/ejercicios/fibonacci_memo.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
+        "name": "Knapsack",
+        "path": "01-recursividad/ejercicios/knapsack.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
+        "name": "Lista Anidada",
+        "path": "01-recursividad/ejercicios/lista_anidada.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
+        "name": "N Reinas",
+        "path": "01-recursividad/ejercicios/n_reinas.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
+        "name": "Palindromo",
+        "path": "01-recursividad/ejercicios/palindromo.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
+        "name": "Permutaciones",
+        "path": "01-recursividad/ejercicios/permutaciones.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
+        "name": "Potencia",
+        "path": "01-recursividad/ejercicios/potencia.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
+        "name": "Recorrido Matriz",
+        "path": "01-recursividad/ejercicios/recorrido_matriz.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
+        "name": "Suma Lista",
+        "path": "01-recursividad/ejercicios/suma_lista.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
+        "name": "Torres Hanoi",
+        "path": "01-recursividad/ejercicios/torres_hanoi.py",
+        "type": "ejercicio",
+        "ext": "py"
+      }
+    ]
+  },
+  {
+    "id": "02-ordenamiento-y-busqueda",
+    "title": "Ordenamiento Y Busqueda",
+    "icon": "📊",
+    "files": [
+      {
+        "name": "Índice",
+        "path": "02-ordenamiento-y-busqueda/README.md",
+        "type": "readme"
+      },
+      {
+        "name": "Teoría",
+        "path": "02-ordenamiento-y-busqueda/teoria.md",
+        "type": "teoria"
+      },
+      {
+        "name": "Binaria Rotada",
+        "path": "02-ordenamiento-y-busqueda/ejercicios/binaria_rotada.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
+        "name": "Burbuja",
+        "path": "02-ordenamiento-y-busqueda/ejercicios/burbuja.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
+        "name": "Busqueda Binaria",
+        "path": "02-ordenamiento-y-busqueda/ejercicios/busqueda_binaria.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
+        "name": "Busqueda Lineal",
+        "path": "02-ordenamiento-y-busqueda/ejercicios/busqueda_lineal.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
+        "name": "Insercion",
+        "path": "02-ordenamiento-y-busqueda/ejercicios/insercion.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
+        "name": "Merge Sort",
+        "path": "02-ordenamiento-y-busqueda/ejercicios/merge_sort.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
+        "name": "Ordenamiento Hibrido",
+        "path": "02-ordenamiento-y-busqueda/ejercicios/ordenamiento_hibrido.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
+        "name": "Quick Sort Inplace",
+        "path": "02-ordenamiento-y-busqueda/ejercicios/quick_sort_inplace.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
+        "name": "Seleccion",
+        "path": "02-ordenamiento-y-busqueda/ejercicios/seleccion.py",
+        "type": "ejercicio",
+        "ext": "py"
+      }
+    ]
+  },
+  {
+    "id": "03-arboles",
+    "title": "Arboles",
+    "icon": "🌳",
+    "files": [
+      {
+        "name": "Índice",
+        "path": "03-arboles/README.md",
+        "type": "readme"
+      },
+      {
+        "name": "Teoría",
+        "path": "03-arboles/teoria.md",
+        "type": "teoria"
+      },
+      {
+        "name": "Altura Arbol",
+        "path": "03-arboles/ejercicios/altura_arbol.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
+        "name": "Arbol Avl",
+        "path": "03-arboles/ejercicios/arbol_avl.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
+        "name": "Arbol Expresiones",
+        "path": "03-arboles/ejercicios/arbol_expresiones.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
+        "name": "Arboles Identicos",
+        "path": "03-arboles/ejercicios/arboles_identicos.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
+        "name": "Bst A Lista Enlazada",
+        "path": "03-arboles/ejercicios/bst_a_lista_enlazada.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
+        "name": "Buscar Bst",
+        "path": "03-arboles/ejercicios/buscar_bst.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
+        "name": "Contar Nodos",
+        "path": "03-arboles/ejercicios/contar_nodos.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
+        "name": "Eliminar Bst",
+        "path": "03-arboles/ejercicios/eliminar_bst.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
+        "name": "Es Balanceado",
+        "path": "03-arboles/ejercicios/es_balanceado.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
+        "name": "Es Bst Valido",
+        "path": "03-arboles/ejercicios/es_bst_valido.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
+        "name": "Inorden Iterativo",
+        "path": "03-arboles/ejercicios/inorden_iterativo.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
+        "name": "Insertar Bst",
+        "path": "03-arboles/ejercicios/insertar_bst.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
+        "name": "Iterador Bst",
+        "path": "03-arboles/ejercicios/iterador_bst.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
+        "name": "K Esimo Menor",
+        "path": "03-arboles/ejercicios/k_esimo_menor.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
+        "name": "Lca Bst",
+        "path": "03-arboles/ejercicios/lca_bst.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
+        "name": "Min Max Bst",
+        "path": "03-arboles/ejercicios/min_max_bst.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
+        "name": "Nodo Y Arbol",
+        "path": "03-arboles/ejercicios/nodo_y_arbol.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
+        "name": "Postorden Iterativo",
+        "path": "03-arboles/ejercicios/postorden_iterativo.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
+        "name": "Recorridos",
+        "path": "03-arboles/ejercicios/recorridos.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
+        "name": "Serializar Bst",
+        "path": "03-arboles/ejercicios/serializar_bst.py",
+        "type": "ejercicio",
+        "ext": "py"
+      }
+    ]
+  },
+  {
+    "id": "04-grafos",
+    "title": "Grafos",
+    "icon": "🕸️",
+    "files": [
+      {
+        "name": "Índice",
+        "path": "04-grafos/README.md",
+        "type": "readme"
+      },
+      {
+        "name": "Teoría",
+        "path": "04-grafos/teoria.md",
+        "type": "teoria"
+      },
+      {
+        "name": "Bfs Iterativo",
+        "path": "04-grafos/ejercicios/bfs_iterativo.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
+        "name": "Camino Minimo Bfs",
+        "path": "04-grafos/ejercicios/camino_minimo_bfs.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
+        "name": "Copiar Binario",
+        "path": "04-grafos/ejercicios/copiar_binario.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
+        "name": "Csv A Diccionario",
+        "path": "04-grafos/ejercicios/csv_a_diccionario.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
+        "name": "Detectar Ciclos",
+        "path": "04-grafos/ejercicios/detectar_ciclos.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
+        "name": "Dfs Iterativo",
+        "path": "04-grafos/ejercicios/dfs_iterativo.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
+        "name": "Dfs Recursivo",
+        "path": "04-grafos/ejercicios/dfs_recursivo.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
+        "name": "Dijkstra",
+        "path": "04-grafos/ejercicios/dijkstra.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
+        "name": "Es Bipartito",
+        "path": "04-grafos/ejercicios/es_bipartito.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
+        "name": "Grafo Adyacencia",
+        "path": "04-grafos/ejercicios/grafo_adyacencia.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
+        "name": "Grafo Dirigido Ciclos",
+        "path": "04-grafos/ejercicios/grafo_dirigido_ciclos.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
+        "name": "Grafo Matriz",
+        "path": "04-grafos/ejercicios/grafo_matriz.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
+        "name": "Json A Grafo",
+        "path": "04-grafos/ejercicios/json_a_grafo.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
+        "name": "Kruskal",
+        "path": "04-grafos/ejercicios/kruskal.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
+        "name": "Prim",
+        "path": "04-grafos/ejercicios/prim.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
+        "name": "Run Length Encoding",
+        "path": "04-grafos/ejercicios/run_length_encoding.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
+        "name": "Sistema Archivos Simple",
+        "path": "04-grafos/ejercicios/sistema_archivos_simple.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
+        "name": "Sistema Logs",
+        "path": "04-grafos/ejercicios/sistema_logs.py",
+        "type": "ejercicio",
+        "ext": "py"
+      }
+    ]
+  },
+  {
+    "id": "05-archivos",
+    "title": "Archivos",
+    "icon": "📁",
+    "files": [
+      {
+        "name": "Índice",
+        "path": "05-archivos/README.md",
+        "type": "readme"
+      },
+      {
+        "name": "Teoría",
+        "path": "05-archivos/teoria.md",
+        "type": "teoria"
+      },
+      {
+        "name": "Acceso Aleatorio",
+        "path": "05-archivos/ejercicios/acceso_aleatorio.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
+        "name": "Acceso Aleatorio Cpp",
+        "path": "05-archivos/ejercicios/acceso_aleatorio_cpp.cpp",
+        "type": "ejercicio",
+        "ext": "cpp"
+      },
+      {
+        "name": "Acceso Secuencial",
+        "path": "05-archivos/ejercicios/acceso_secuencial.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
+        "name": "Anadir Texto",
+        "path": "05-archivos/ejercicios/anadir_texto.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
+        "name": "Contar Lineas Palabras",
+        "path": "05-archivos/ejercicios/contar_lineas_palabras.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
+        "name": "Copiar Binario",
+        "path": "05-archivos/ejercicios/copiar_binario.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
+        "name": "Csv A Diccionario",
+        "path": "05-archivos/ejercicios/csv_a_diccionario.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
+        "name": "Escribir Texto",
+        "path": "05-archivos/ejercicios/escribir_texto.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
+        "name": "Escritura Binaria",
+        "path": "05-archivos/ejercicios/escritura_binaria.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
+        "name": "Lectura Binaria",
+        "path": "05-archivos/ejercicios/lectura_binaria.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
+        "name": "Leer Linea Por Linea",
+        "path": "05-archivos/ejercicios/leer_linea_por_linea.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
+        "name": "Leer Texto",
+        "path": "05-archivos/ejercicios/leer_texto.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
+        "name": "Run Length Encoding",
+        "path": "05-archivos/ejercicios/run_length_encoding.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
+        "name": "Sistema Archivos Simple",
+        "path": "05-archivos/ejercicios/sistema_archivos_simple.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
+        "name": "Sistema Logs",
+        "path": "05-archivos/ejercicios/sistema_logs.py",
+        "type": "ejercicio",
+        "ext": "py"
+      }
+    ]
+  },
+  {
+    "id": "06-grandes-datos",
+    "title": "Grandes Datos",
+    "icon": "💾",
+    "files": [
+      {
+        "name": "Índice",
+        "path": "06-grandes-datos/README.md",
+        "type": "readme"
+      },
+      {
+        "name": "Teoría",
+        "path": "06-grandes-datos/teoria.md",
+        "type": "teoria"
+      },
+      {
+        "name": "Ejercicio1 Generacion Masiva",
+        "path": "06-grandes-datos/ejercicios/ejercicio1_generacion_masiva.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
+        "name": "Ejercicio2 Analisis Ventas",
+        "path": "06-grandes-datos/ejercicios/ejercicio2_analisis_ventas.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
+        "name": "Ejercicio3 Ordenamiento Externo",
+        "path": "06-grandes-datos/ejercicios/ejercicio3_ordenamiento_externo.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
+        "name": "Solucion1 Generacion Masiva",
+        "path": "06-grandes-datos/soluciones/solucion1_generacion_masiva.py",
+        "type": "solucion",
+        "ext": "py"
+      },
+      {
+        "name": "Solucion2 Analisis Ventas",
+        "path": "06-grandes-datos/soluciones/solucion2_analisis_ventas.py",
+        "type": "solucion",
+        "ext": "py"
+      },
+      {
+        "name": "Solucion3 Ordenamiento Externo",
+        "path": "06-grandes-datos/soluciones/solucion3_ordenamiento_externo.py",
+        "type": "solucion",
+        "ext": "py"
+      }
+    ]
+  }
+]
