@@ -253,7 +253,35 @@ async function cargarContenido() {
         files: t.files.map((f) => ({ ...f, path: '../' + f.path }))
     }));
 
-    estado.topics = contenido;
+    // Defensa: descartar entradas que no sean archivos conocidos.
+    // Un __pycache__ u otro directorio no debe tratarse como documento.
+    const EXT_VALIDAS = ['md', 'py', 'cpp', 'java', 'txt', 'json'];
+    const temas_limpios = contenido
+        .map((t) => ({
+            ...t,
+            files: t.files.filter((f) => {
+                const nombre = String(f.path || '');
+                // La extension puede venir en f.ext o deducirse de la
+                // ruta: las entradas README.md y teoria.md no traen ext.
+                const punto = nombre.lastIndexOf('.');
+                const ext = String(f.ext || (punto > -1
+                    ? nombre.slice(punto + 1).toLowerCase()
+                    : '')).toLowerCase();
+                return EXT_VALIDAS.includes(ext) && !nombre.includes('__pycache__');
+            })
+        }))
+        .filter((t) => t.files.length > 0);
+
+    const descartadas =
+        contenido.reduce((n, t) => n + t.files.length, 0) -
+        temas_limpios.reduce((n, t) => n + t.files.length, 0);
+    if (descartadas > 0) {
+        console.warn(`Manifiesto: ${descartadas} entradas no validas descartadas`);
+    }
+
+    estado.topics = temas_limpios;
+    contenido.length = 0;
+    contenido.push(...temas_limpios);
 
     let orden = 0;
     for (const topic of contenido) {
@@ -391,6 +419,13 @@ async function abrirArchivo(indice) {
         const resp = await fetch(item.path);
         if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
         const texto = await resp.text();
+
+        // El servidor devuelve HTML cuando se pide un DIRECTORIO: eso
+        // significa que el manifiesto apunta a algo que no es documento.
+        if (/^\s*<(!doctype|html)/i.test(texto)) {
+            throw new Error('La ruta no es un documento (el servidor devolvio HTML)');
+        }
+
         window.scrollTo({ top: 0, behavior: 'auto' });
         if (item.ext === 'py' || item.ext === 'cpp' || item.ext === 'java') {
             const lang = item.ext === 'py' ? 'python' : 'cpp';
