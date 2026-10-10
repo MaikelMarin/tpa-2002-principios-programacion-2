@@ -1,5 +1,16 @@
 # Teoría: Procesamiento de Grandes Cantidades de Datos
 
+## Prerequisitos
+
+| Apartado de `00-fundamentos` | Por qué se necesita aquí |
+|-------------------------------|--------------------------|
+| **4. Logaritmos** | El número de pasadas del ordenamiento externo es logarítmico en el tamaño |
+| **5. Sumatorias** | Para calcular el coste total de E/S (4N operaciones) |
+| **7. Recurrencias** | Análisis de número de pasadas y tamaño de bloques |
+| **8. Estructuras** | Heap (mezcla de k vías), cola, pila |
+| **9. Modelo de memoria** | **La base de todo el tema**: jerarquía de memoria y por qué el disco domina el coste |
+| **10. Python (generadores)** | **Imprescindible**: el procesamiento por streaming se apoya en ellos |
+
 ---
 
 ## 1. El problema
@@ -8,11 +19,11 @@
 
 El procesamiento de grandes volúmenes de datos (*big data*) aborda situaciones donde el conjunto de datos:
 - Es demasiado grande para caber en la memoria RAM del proceso.
-- O es demasiado grande para procesarse eficientemente con algoritmos ingenuos.
+- O es demasiado grande para procesarse eficientemente con algoritmos inocentes.
 
-No se trata solo de tamaño: 10 GB de datos con un algoritmo O(n²) es peor que 100 GB con uno O(n).
+No se trata solo de tamaño: 10 GB con un algoritmo O(n²) es peor que 100 GB con uno O(n).
 
-### 1.2 La jerarquía de memoria
+### 1.2 La jerarquía de memoria cuantificada
 
 | Nivel | Latencia típica | Capacidad típica | Acceso |
 |-------|-----------------|------------------|--------|
@@ -22,12 +33,14 @@ No se trata solo de tamaño: 10 GB de datos con un algoritmo O(n²) es peor que 
 | Caché L3 | ~20 ns | 8-32 MB | Directo |
 | Memoria RAM | ~100 ns | 8-64 GB | Aleatorio |
 | SSD NVMe | ~100 µs | 256 GB - 2 TB | Por bloques |
-| Disco HDD | ~10 ms | 1-20 TB | Por bloques, busca |
+| Disco duro (HDD) | ~10 ms | 1-20 TB | Por bloques, con seek |
 | Red (misma región) | ~500 µs | Ilimitado | Protocolo |
 
-**Dato clave:** la diferencia entre RAM y disco es de aproximadamente **100,000×** en latencia. Un algoritmo que minimiza accesos a disco puede superar por órdenes de magnitud a uno con "mejor" complejidad en RAM.
+**El dato que gobierna todo el tema:** la diferencia entre RAM y HDD es aproximadamente **100,000×** en latencia.
 
-### 1.3 Las dimensiones del problema (las "V" del big data)
+Consecuencia práctica: un algoritmo que minimiza accesos a disco puede superar por órdenes de magnitud a uno con "mejor" complejidad en RAM. **La complejidad asintótica deja de ser la métrica principal.**
+
+### 1.3 Las dimensiones del problema
 
 - **Volumen:** terabytes o petabytes.
 - **Velocidad:** datos que llegan en streaming continuo.
@@ -41,14 +54,12 @@ No se trata solo de tamaño: 10 GB de datos con un algoritmo O(n²) es peor que 
 
 ### 2.1 Concepto
 
-En vez de cargar todo el conjunto de datos en memoria, se procesa un elemento (o un bloque) a la vez, manteniendo solo un estado agregado.
-
-### 2.2 Antipatrón vs patrón correcto
+En vez de cargar todo el conjunto de datos en memoria, se procesa un elemento (o un bloque) a la vez, manteniendo solo un **estado agregado**.
 
 ```python
 # MAL: carga todo el archivo en memoria
 with open("ventas.csv") as f:
-    lineas = f.readlines()          # ¡200 millones de strings en RAM!
+    lineas = f.readlines()          # 200 millones de strings en RAM
 total = sum(float(l.split(",")[2]) for l in lineas[1:])
 
 # BIEN: procesa línea por línea
@@ -59,21 +70,23 @@ with open("ventas.csv") as f:
         total += float(linea.split(",")[2])
 ```
 
-La diferencia no es de complejidad asintótica: ambas son O(n) en tiempo. La diferencia es O(n) versus O(1) en memoria.
+La diferencia no es de complejidad asintótica (ambas son O(n) en tiempo): es **O(n) versus O(1) en memoria**.
 
-### 2.3 Generadores en Python
+### 2.2 Generadores
+
+Producen valores **uno a la vez**, sin materializar la lista completa:
 
 ```python
 def leer_registros(ruta):
     with open(ruta) as f:
-        for linea in f:
-            yield procesar(linea)    # produce un registro a la vez
+        for linea in f:              # el archivo se lee bajo demanda
+            yield procesar(linea)
 
-# Consumo perezoso: nunca todos los datos en memoria
+# Consumo perezoso: nunca todas las líneas en memoria
 total = sum(r["monto"] for r in leer_registros("ventas.csv"))
 ```
 
-Los generadores permiten encadenar transformaciones sin materializar resultados intermedios.
+Los generadores permiten encadenar transformaciones sin materializar resultados intermedios. Es la herramienta central del tema.
 
 ---
 
@@ -83,77 +96,33 @@ Los generadores permiten encadenar transformaciones sin materializar resultados 
 
 Ordenar N elementos cuando N no cabe en memoria de tamaño M.
 
-Con Quick Sort o Merge Sort en memoria: imposible o inviable. Con acceso aleatorio a disco: cada acceso cuesta ~10 ms; O(N log N) accesos aleatorios serían catastróficos.
+Con Quick Sort o Merge Sort en memoria es inviable. Con acceso aleatorio a disco es catastrófico: cada acceso cuesta ~10 ms, y O(N log N) accesos aleatorios serían inhabilitables.
 
 ### 3.2 El algoritmo
 
 **Fase 1 — Dividir y ordenar (runs):**
 1. Leer bloques de M elementos.
-2. Ordenar cada bloque en memoria (Quick Sort es ideal aquí: acceso aleatorio rápido, todo en RAM).
+2. Ordenar cada bloque **en memoria** (Quick Sort es ideal: acceso aleatorio rápido, todo en RAM).
 3. Escribir cada bloque ordenado a un archivo temporal en disco.
 
 Resultado: `⌈N/M⌉` archivos temporales, cada uno ordenado internamente.
 
 **Fase 2 — Mezclar (merge):**
 1. Mezclar los archivos temporales con una **mezcla de k vías** usando un heap.
-2. El heap contiene un elemento de cada archivo; se extrae el mínimo y se reemplaza por el siguiente elemento de ese archivo.
-3. El resultado se escribe secuencialmente al archivo final.
+2. El heap contiene un elemento de cada archivo; se extrae el mínimo y se reemplaza por el siguiente de ese archivo.
+3. El resultado se escribe **secuencialmente** al archivo final.
 
-**¿Por qué funciona?** La mezcla lee cada archivo **secuencialmente**, que es el modo de acceso más rápido en disco. No hay accesos aleatorios.
+**¿Por qué funciona?** La mezcla lee cada archivo **secuencialmente**, el modo más rápido en disco. No hay accesos aleatorios: ni un solo `seek` dentro de los datos.
 
-### 3.3 Análisis de costo
+### 3.3 Análisis de coste
 
-- **Fase 1:** Se leen y escriben N elementos una vez cada uno: 2N operaciones de E/S.
-- **Fase 2:** Se leen N elementos y se escriben N: otras 2N operaciones.
-- **Total:** aproximadamente 4N operaciones de E/S secuenciales.
+- **Fase 1:** se leen y escriben N elementos una vez cada uno → 2N operaciones de E/S.
+- **Fase 2:** se leen N y se escriben N → otras 2N operaciones.
+- **Total: aproximadamente 4N operaciones de E/S secuenciales.**
 
 Comparación con Merge Sort de 2 vías sobre disco: `log(N/M)` pasadas × 2N lecturas/escrituras. Con k-vías balanceado se minimiza el número de pasadas.
 
 **Paralelización:** la Fase 1 es trivialmente paralela — cada bloque se ordena en un proceso/núcleo independiente. La Fase 2 puede paralelizarse particionando el rango de claves (cada trabajador toma un rango).
-
-### 3.4 Implementación de referencia
-
-```python
-import heapq, tempfile, os
-
-def ordenamiento_externo(entrada, salida, bloque=10000):
-    temporales = []
-    with open(entrada) as f:
-        while True:
-            datos = []
-            for _ in range(bloque):
-                linea = f.readline()
-                if not linea:
-                    break
-                datos.append(int(linea))
-            if not datos:
-                break
-            datos.sort()
-            temp = tempfile.NamedTemporaryFile("w+", delete=False)
-            temp.writelines(f"{d}\n" for d in datos)
-            temp.close()
-            temporales.append(temp.name)
-
-    archivos = [open(t) for t in temporales]
-    heap = []
-    for i, a in enumerate(archivos):
-        linea = a.readline()
-        if linea:
-            heapq.heappush(heap, (int(linea), i))
-
-    with open(salida, "w") as out:
-        while heap:
-            valor, i = heapq.heappop(heap)
-            out.write(f"{valor}\n")
-            linea = archivos[i].readline()
-            if linea:
-                heapq.heappush(heap, (int(linea), i))
-
-    for a in archivos:
-        a.close()
-    for t in temporales:
-        os.unlink(t)
-```
 
 ---
 
@@ -161,10 +130,10 @@ def ordenamiento_externo(entrada, salida, bloque=10000):
 
 ### 4.1 Escritura con búfer
 
-Las llamadas al sistema operativo tienen costo fijo. Agrupar escrituras en búferes de 4-64 KB mejora dramáticamente el rendimiento.
+Las llamadas al sistema tienen costo fijo. Agrupar escrituras en búferes de 4-64 KB mejora dramáticamente el rendimiento:
 
 ```python
-with open("salida.txt", "w", buffering=8192) as f:   # búfer de 8 KB
+with open("salida.txt", "w", buffering=8192) as f:
     buffer = []
     for i in range(1000000):
         buffer.append(f"linea {i}\n")
@@ -177,14 +146,14 @@ with open("salida.txt", "w", buffering=8192) as f:   # búfer de 8 KB
 
 ### 4.2 Compresión
 
-Comprimir datos antes de escribir reduce el volumen de E/S, que suele ser el cuello de botella. RLE, gzip, zstd. La compresión consume CPU, pero la CPU suele estar ociosa esperando al disco.
+Comprimir antes de escribir reduce el volumen de E/S, que suele ser el cuello de botella. La compresión consume CPU, pero la CPU suele estar ociosa esperando al disco. Es un trade-off favorable.
 
 ### 4.3 Muestreo y aproximación
 
-Para estadísticas sobre conjuntos masivos, no siempre se necesita exactitud:
+Para estadísticas sobre conjuntos masivos no siempre se necesita exactitud:
 - **Media/varianza:** algoritmos de un solo paso (Welford) sin almacenar datos.
-- **Percentiles:** esbozos probabilísticos (t-digest, GK) con error acotado.
-- **Conteo de distintos:** HyperLogLog con ~1% de error usando pocos KB.
+- **Percentiles:** esbozos probabilísticos (t-digest, Greenwald-Khanna) con error acotado.
+- **Conteo de distintos:** HyperLogLog con ~2% de error usando pocos KB.
 
 ### 4.4 Proyección y poda
 
@@ -221,17 +190,17 @@ Cuando una máquina no basta:
 
 ---
 
-## Bibliografía
+## Bibliografía anotada
 
-1. **Cormen, T. H., Leiserson, C. E., Rivest, R. L. & Stein, C.** *Introduction to Algorithms*, III ed. MIT Press, 2009. — Capítulo 6: Heapsort (mezcla con heap).
-2. **Knuth, D. E.** *The Art of Computer Programming*, Vol. 3: Sorting and Searching, II ed. Addison-Wesley, 1998. — Sección 5.4: External Sorting.
+1. **Cormen, T. H., Leiserson, C. E., Rivest, R. L. & Stein, C.** *Introduction to Algorithms*, III ed. MIT Press, 2009. — Capítulo 6 (Heapsort): la mezcla con heap que usa el ordenamiento externo.
+2. **Knuth, D. E.** *The Art of Computer Programming*, Vol. 3: Sorting and Searching, II ed. Addison-Wesley, 1998. — Sección 5.4: External Sorting. La referencia canónica.
 3. **Dean, J. & Ghemawat, S.** "MapReduce: Simplified Data Processing on Large Clusters", *OSDI*, 2004. — Paper fundacional de Google.
 4. **Kleppmann, M.** *Designing Data-Intensive Applications*. O'Reilly, 2017. — Capítulos 10-11: procesamiento por lotes y streaming.
-5. **Zhao, S.** *Big Data: Principles and Paradigms*. Morgan Kaufmann, 2018.
+5. **Leskovec, J., Rajaraman, A. & Ullman, J. D.** *Mining of Massive Datasets*, II ed. Cambridge, 2014. — Muestreo, esbozos y técnicas a escala.
 
 ## Recursos utilizados
 
 - MIT OpenCourseWare — 6.046J Design and Analysis of Algorithms: https://ocw.mit.edu/courses/6-046j-design-and-analysis-of-algorithms-spring-2015/
 - GeeksforGeeks — External Sorting: https://www.geeksforgeeks.org/external-sorting/
-- Python Documentation — Generators: https://docs.python.org/3/tutorial/classes.html#generators
-- Google Research — MapReduce paper: https://research.google/pubs/pub62/
+- Python Documentation — Generadores: https://docs.python.org/3/tutorial/classes.html#generators
+- Google Research — Paper de MapReduce: https://research.google/pubs/pub62/

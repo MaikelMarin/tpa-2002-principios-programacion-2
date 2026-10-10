@@ -496,6 +496,12 @@
         "ext": "cpp"
       },
       {
+        "name": "Acceso Aleatorio Cpp Explicado",
+        "path": "05-archivos/ejercicios/acceso_aleatorio_cpp_explicado.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
         "name": "Acceso Secuencial",
         "path": "05-archivos/ejercicios/acceso_secuencial.py",
         "type": "ejercicio",
