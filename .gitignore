@@ -8,8 +8,9 @@ public_Cronograma_Principios_de_Programación_2.pdf
 *.pdf
 
 # --- Configuración de agentes / skills (local) ---
+# Nota: AGENTS.md SÍ se versiona a propósito: documenta la estructura
+# y convenciones del proyecto, y es útil para cualquier colaborador.
 .agents/
-AGENTS.md
 CLAUDE.md
 skills-lock.json
 SKILL.md

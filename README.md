@@ -4,7 +4,7 @@ Proyecto de aprendizaje y creación de ejercicios para dominar cada tema del cur
 
 > **Autor:** Maikel Marín Brenes — [Vipermech](https://github.com/Vipermech)
 >
-> **Asistencia de IA:** Este proyecto fue creado con asistencia de inteligencia artificial (OpenCode / Claude). La IA colaboró en la creación de la estructura, la redacción de la documentación teórica, la implementación de los ejercicios y el desarrollo de la aplicación web. La dirección, los requisitos y las decisiones del proyecto son del autor.
+> **Asistencia de IA:** Este proyecto fue creado con asistencia de inteligencia artificial (OpenCode). La IA colaboró en la creación de la estructura, la redacción de la documentación teórica, la implementación de los ejercicios y el desarrollo de la aplicación web. La dirección, los requisitos y las decisiones del proyecto son del autor.
 
 ---
 
