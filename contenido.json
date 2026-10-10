@@ -32,6 +32,18 @@
         "type": "teoria"
       },
       {
+        "name": "  Pycache  ",
+        "path": "01-recursividad/ejercicios/__pycache__",
+        "type": "ejercicio",
+        "ext": ""
+      },
+      {
+        "name": "Busqueda Binaria",
+        "path": "01-recursividad/ejercicios/busqueda_binaria.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
         "name": "Factorial",
         "path": "01-recursividad/ejercicios/factorial.py",
         "type": "ejercicio",
