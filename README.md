@@ -124,7 +124,7 @@ Los 7 temas no son una lista suelta: forman una progresión donde cada uno se ap
 ### Los tres ejes que cruzan todo el proyecto
 
 1. **Rigor académico** — cada algoritmo trae su demostración de corrección y su análisis de complejidad desarrollado, no solo la fórmula final.
-2. **Rigor técnico** — cada ejercicio es ejecutable y se verifica a sí mismo. **84/84 archivos pasan sus pruebas.**
+2. **Rigor técnico** — cada ejercicio es ejecutable y se verifica a sí mismo. **88/88 archivos pasan sus pruebas.**
 3. **Comprensión profunda** — cada tema incluye historia (de dónde salió el algoritmo), trade-offs (por qué existe más de uno) y casos límite (cuándo falla).
 
 ---
@@ -172,7 +172,7 @@ Si un ejercicio asume algo que no entiendes, la sección **Conocimiento previo**
 | # | Temática | Ejercicios | Contenido |
 |---|----------|------------|-----------|
 | 00 | Fundamentos | — | Notación asintótica, inducción, logaritmos, sumatorias, análisis, recurrencias, estructuras, memoria, Python |
-| 01 | Recursividad | 14 | Factorial, Fibonacci (3 versiones), backtracking, N reinas, Hanói, Knapsack |
+| 01 | Recursividad | 18 | Factorial, Fibonacci (3 versiones), backtracking (7 problemas), N reinas, Hanói, Knapsack |
 | 02 | Ordenamiento y búsqueda | 11 | Los 5 ordenamientos, 2 búsquedas, Quick in-place, Merge en lista enlazada, híbrido |
 | 03 | Árboles | 20 | BST completo, AVL con rotaciones, recorridos iterativos, LCA, k-ésimo, serialización |
 | 04 | Grafos | 18 | Lista y matriz de adyacencia, BFS, DFS, ciclos (dirigidos y no), Dijkstra, Kruskal, Prim, bipartito |

@@ -803,6 +803,56 @@ def knapsack(pesos, valores, capacidad):
 
 El generador de permutaciones es el más instructivo porque es backtracking **sin poda**: se quieren todas las soluciones, no una. Es el patrón que aparece en `ejercicios/permutaciones.py`.
 
+### Dónde vive cada uno en el proyecto
+
+| Problema | Ejercicio | Poda | Lección que aporta |
+|----------|-----------|------|--------------------|
+| **Permutaciones** | [`ejercicios/permutaciones.py`](ejercicios/permutaciones.py) | Ninguna (se quieren todas) | Backtracking sin poda; patrón base |
+| **N reinas** | [`ejercicios/n_reinas.py`](ejercicios/n_reinas.py) | Fila + dos diagonales | Poda geométrica |
+| **Mochila (0/1)** | [`ejercicios/knapsack.py`](ejercicios/knapsack.py) | Capacidad restante | Subproblemas superpuestos → DP |
+| **Subconjuntos que sumen k** | [`ejercicios/subconjuntos_suman_k.py`](ejercicios/subconjuntos_suman_k.py) | Suma excedida | Poda condicional: **solo válida con números positivos** |
+| **Laberinto** | [`ejercicios/laberinto.py`](ejercicios/laberinto.py) | Pared, fuera de rango, ya visitada | Backtracking sobre cuadrícula; el orden de las comprobaciones |
+| **Sudoku** | [`ejercicios/sudoku.py`](ejercicios/sudoku.py) | Fila, columna y caja | Poda **fuerte**: sin ella el problema es inviable |
+| **Coloreo de grafos** | [`ejercicios/coloreo_grafos.py`](ejercicios/coloreo_grafos.py) | Vecino con el mismo color | Backtracking sobre grafos; límite con m=2 |
+
+### 4.7 Backtracking como técnica transversal
+
+El backtracking no es un algoritmo: es un **patrón de control** que aparece en todos los temas del proyecto. Reconocerlo permite resolver problemas nuevos sin memorizar soluciones.
+
+**La plantilla, una vez más:**
+
+```
+función backtrack(estado):
+    si estado es solución completa:
+        registrar o retornar
+        return
+    para cada opción disponible:
+        si es_prometedora(opción, estado):     ← PODA
+            aplicar(opción, estado)            ← HACER
+            backtrack(estado)                  ← EXPLORAR
+            deshacer(opción, estado)           ← DESHACER
+```
+
+**Dónde aparece en el proyecto:**
+
+| Tema | Dónde vive el backtracking |
+|------|----------------------------|
+| **01 Recursividad** | Las N reinas, Knapsack, permutaciones, subconjuntos, laberinto, Sudoku, coloreo |
+| **02 Ordenamiento** | No aparece directamente, pero Quick Sort comparte la estructura "elegir pivote y descartar" |
+| **03 Árboles** | El recorrido DFS de un árbol es backtracking **sin** deshacer: no hay estado compartido que restaurar |
+| **04 Grafos** | DFS es backtracking sobre el grafo; laberintos, coloreo y detección de ciclos usan la misma plantilla |
+| **06 Grandes datos** | No aplica: los datos no caben en memoria, así que no se puede mantener el estado de exploración |
+
+**El error clásico: olvidar el DESHACER.**
+
+Si una rama prometedora falla y no se restaura el estado, la exploración contina con datos corruptos. Los síntomas son resultados duplicados, soluciones fantasma, o paths que pasan por celdas prohibidas.
+
+En el laberinto del proyecto hubo exactamente ese error durante el desarrollo: se comprobaba "¿es la salida?" **antes** de "¿es una pared?", así que un laberinto cuya salida fuese pared devolva un camino "vlido" que terminaba dentro de la pared. **Las podas deben ir primero y el caso de xito despus.**
+
+**El segundo error clsico: podar con una suposicin no declarada.**
+
+En subconjuntos que suman k, podar cuando la suma parcial excede el objetivo es correcto **solo si todos los números son positivos**. Con negativos, aadir un elemento puede reducir la suma y volver a acercarse al objetivo. El proyecto implementa ambas versiones (con y sin poda) precisamente para que la restriccin quede documentada.
+
 ---
 
 ## 5. Torres de Hanói
@@ -972,14 +1022,33 @@ Este patrón se retoma en el tema 06 (grandes datos), donde la memoria deja de s
 | Pila de llamadas | Cada llamada cuesta un marco | Límite de recursión, recorridos iterativos (03) |
 | Patrón cabeza+cola | Listas y árboles se recorren igual | Árboles (03), grafos (04) |
 | Divide y vencerás | Partir el problema a la mitad | Merge/Quick Sort (02), potencia, Hanoi |
-| Hacer / Explorar / Deshacer | Backtracking | Grafos (04), laberintos |
+| Hacer / Explorar / Deshacer | Backtracking | Grafos (04), laberintos, Sudoku, coloreo |
+| Poda fuerte | Descartar ramas antes de explorarlas | Sudoku, coloreo, subconjuntos |
 | Memoización | No recalcular subproblemas | Knapsack, grandes datos (06) |
+
+### Los siete problemas de backtracking del tema
+
+| Problema | Poda | Complejidad | Verificación |
+|----------|------|-------------|--------------|
+| Permutaciones | Ninguna | O(n · n!) | Contra sí mismo (otra formulación) |
+| N reinas | Fila + diagonales | O(N!) | Contra OEIS A000170 (N=1..8) |
+| Mochila 0/1 | Capacidad | O(2ⁿ) | Contra fuerza bruta y contra DP |
+| Subconjuntos que sumen k | Suma excedida | O(2ⁿ) | Contra fuerza bruta (500 casos) |
+| Laberinto | Pared, visitadas | Exponencial | Caminos válidos (300 laberintos) |
+| Sudoku | Fila/columna/caja | Exponencial con poda | Solución válida + pistas respetadas |
+| Coloreo de grafos | Vecino mismo color | O(m^V) | Coloreo válido + minimalidad |
 
 **Los tres errores más frecuentes al aprender recursividad:**
 
 1. **Caso base inalcanzable.** La reducción no garantiza llegar a él. Síntoma: `RecursionError` inmediato.
 2. **No usar la hipótesis inductiva al demostrar corrección.** La demostración se vuelve circular o vacía.
 3. **Confundir número de llamadas con profundidad.** El tiempo depende de la primera; la memoria, de la segunda.
+
+**Los tres errores específicos del backtracking** (ver sección 4.7 para el detalle):
+
+1. **Olvidar el DESHACER.** La rama falla pero el estado queda modificado, y la exploración siguiente parte de datos corruptos. Síntoma: soluciones fantasma o duplicadas.
+2. **Comprobar el éxito antes que las podas.** Un laberinto cuya salida sea pared devuelve un camino que termina dentro de la pared. Las podas van primero.
+3. **Podar con una suposición no declarada.** "Suma excedida → cortar" solo es válido con números positivos. Con negativos la solución puede existir tras un descenso.
 
 ---
 

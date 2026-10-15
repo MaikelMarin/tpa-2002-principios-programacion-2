@@ -38,6 +38,12 @@
         "ext": "py"
       },
       {
+        "name": "Coloreo Grafos",
+        "path": "01-recursividad/ejercicios/coloreo_grafos.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
         "name": "Factorial",
         "path": "01-recursividad/ejercicios/factorial.py",
         "type": "ejercicio",
@@ -64,6 +70,12 @@
       {
         "name": "Knapsack",
         "path": "01-recursividad/ejercicios/knapsack.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
+        "name": "Laberinto",
+        "path": "01-recursividad/ejercicios/laberinto.py",
         "type": "ejercicio",
         "ext": "py"
       },
@@ -100,6 +112,18 @@
       {
         "name": "Recorrido Matriz",
         "path": "01-recursividad/ejercicios/recorrido_matriz.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
+        "name": "Subconjuntos Suman K",
+        "path": "01-recursividad/ejercicios/subconjuntos_suman_k.py",
+        "type": "ejercicio",
+        "ext": "py"
+      },
+      {
+        "name": "Sudoku",
+        "path": "01-recursividad/ejercicios/sudoku.py",
         "type": "ejercicio",
         "ext": "py"
       },

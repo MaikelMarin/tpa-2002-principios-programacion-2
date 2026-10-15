@@ -149,7 +149,7 @@ Dónde cae cada familia de algoritmos del proyecto:
 | `O(n)` | Búsqueda lineal; recorrido de árbol o grafo (BFS/DFS) |
 | `O(n log n)` | Merge Sort, Quick Sort (promedio), Heap Sort, Dijkstra con heap |
 | `O(n²)` | Bubble, Selection, Insertion (peor caso); Dijkstra con lista |
-| `O(2ⁿ)` | Fibonacci ingenuo; Knapsack por backtracking |
+| `O(2ⁿ)` | Fibonacci ingenuo; backtracking: Knapsack, subconjuntos, Sudoku, coloreo de grafos |
 | `O(n!)` | Fuerza bruta de las N reinas; permutaciones |
 
 ### 2.7 Trampas frecuentes
@@ -321,7 +321,9 @@ La diferencia entre `n` y `n log n` para un millón de elementos es un factor de
 | 40 | ~1 billón |
 | 60 | ~10¹⁸ (más que la edad del universo en nanosegundos) |
 
-De aquí la regla práctica del proyecto: si un algoritmo es `O(2ⁿ)`, solo es usable para n ≤ ~25. Fibonacci ingenuo y el Knapsack por backtracking caen aquí; sus versiones con memoización o programación dinámica bajan a polinomial.
+De aquí la regla práctica del proyecto: si un algoritmo es `O(2ⁿ)`, solo es usable para n ≤ ~25. Fibonacci ingenuo cae aqui, y su version con memorizacion baja a polinomial.
+
+El **backtracking** (tema 01, §4) tambien vive en `O(2ⁿ)` en el peor caso: Knapsack, subconjuntos, Sudoku y coloreo de grafos. Para esos, la **poda** no cambia la complejidad asintotica pero si la viabilidad real: el Sudoku pasa de inviable a milisegundos. Cuando ademas hay *subproblemas superpuestos* (Knapsack, subconjuntos), la memorizacion baja el costo a polinomial.
 
 ### 4.6 Teorema Maestro (vista rápida)
 

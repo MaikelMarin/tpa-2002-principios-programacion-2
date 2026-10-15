@@ -195,7 +195,7 @@ def dfs(grafo, v, visitados=None):
 - **Detección de ciclos.** En no dirigido: si se alcanza un vértice visitado que no es el padre inmediato, hay ciclo. En dígrafo: tres estados (BLANCO/GRIS/NEGRO); alcanzar un vértice GRIS implica ciclo (arista de retroceso).
 - **Ordenamiento topológico** en DAG: el orden inverso de finalización de DFS.
 - **Componentes fuertemente conexos** (Kosaraju).
-- **Backtracking** (laberintos, coloreo).
+- **Backtracking.** DFS encuentra *un* camino; el backtracking lo reconstruye y admite restricciones. En el tema 01 estan implementados: [`laberinto`](../01-recursividad/ejercicios/laberinto.py) (backtracking sobre una cuadricula, que es un grafo implicito) y [`coloreo de grafos`](../01-recursividad/ejercicios/coloreo_grafos.py) (que generaliza el test de bipartito de la §6).
 
 ### 4.3 BFS vs DFS
 
