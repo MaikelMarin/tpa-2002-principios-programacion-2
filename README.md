@@ -90,7 +90,7 @@ Proyecto/
 ├── 00-fundamentos/                    ← Andamiaje matemático y computacional
 ├── 01-recursividad/                   ← Fundamentos de recursividad
 ├── 02-ordenamiento-y-busqueda/        ← Métodos de ordenamiento y búsqueda
-├── 03-arboles/                        ← Estructuras de datos jerárquicas
+├── 03-árboles/                        ← Estructuras de datos jerárquicas
 ├── 04-grafos/                         ← Estructuras de datos tipo red
 ├── 05-archivos/                       ← Procesamiento de archivos
 └── 06-grandes-datos/                  ← Procesamiento de grandes volúmenes de datos

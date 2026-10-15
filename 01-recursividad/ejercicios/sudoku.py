@@ -3,7 +3,7 @@ Ejercicio 17: Sudoku
 Dificultad: Avanzado
 
 CONOCIMIENTO PREVIO NECESARIO
-    - Backtracking y la plantilla HACER/EXPLORAR/DESHACER (seccin 4.2).
+    - Backtracking y la plantilla HACER/EXPLORAR/DESHACER (sección 4.2).
     - Matrices y validacin por regiones (listas de listas).
     - Por qu la poda es aqu MS importante que en otros problemas.
 
@@ -22,13 +22,13 @@ FONDO MATEMTICO
         Sin poda: 9^61 tableros posibles (inasumible).
         Con poda: se descartan el 99.999...% en el primer nivel.
 
-    La poda no es una optimizacin: es lo nico que hace el problema
-    tratable. Un Sudoku bien planteado (con solucin nica) se resuelve
+    La poda no es una optimización: es lo nico que hace el problema
+    tratable. Un Sudoku bien planteado (con solución nica) se resuelve
     en milisegundos; uno mal planteado puede tardar horas.
 
     HEURISTICA IMPORTANTE: elegir bien la SIGUIENTE CELDA.
         - Orden fijo (izq a der, arriba abajo): simple pero lento.
-        - Celda con MENOS candidatos primero (MRV): mucho ms rpido.
+        - Celda con MENOS candidatos primero (MRV): mucho ms rápido.
 
     Este ejercicio usa orden fijo por claridad, y documenta qu tanto
     se ganara con MRV.
@@ -38,7 +38,7 @@ ESTRATEGIA
 ```python
 def resolver(tablero):
     if no_huecos(tablero):
-        return True                              # solucin completa
+        return True                              # solución completa
 
     fila, col = siguiente_hueco(tablero)         # primera celda vacia
 
@@ -52,7 +52,7 @@ def resolver(tablero):
     return False                                  # ningn digito funcion
 ```
 
-    La funcin `es_valido` es toda la poda:
+    La función `es_valido` es toda la poda:
         1. El digito no est ya en la fila?
         2. Ni en la columna?
         3. Ni en la caja 3x3 correspondiente?
@@ -76,40 +76,40 @@ TRAZA de una decisin
             colocar 3, recursar
             si la recursin falla -> deshacer, probar 4
 
-    Cada candidato descartado ahorra un subrbol ENTERO de bsqueda.
+    Cada candidato descartado ahorra un subrbol ENTERO de búsqueda.
 
 DEMOSTRACIN DE CORRECCIN
     Por induccin sobre el nmero de celdas vacias.
 
-    - Caso base: sin huecos. Por construccin cada colocacin respet
-      fila, columna y caja, luego el tablero es una solucin vlida.
+    - Caso base: sin huecos. Por construcción cada colocacin respet
+      fila, columna y caja, luego el tablero es una solución válida.
     - Paso: para la primera celda vacia, se prueban todos los digitos
       posibles. Los invlidos se descartan (seran soluciones que
-      violan las reglas). Los vlidos se exploran recursivamente.
+      violan las reglas). Los válidos se exploran recursivamente.
 
-    Si el Sudoku tiene solucin, el backtracking la encuentra: en el
-    peor caso explora todas las combinaciones vlidas. Si no la tiene,
+    Si el Sudoku tiene solución, el backtracking la encuentra: en el
+    peor caso explora todas las combinaciones válidas. Si no la tiene,
     todas las ramas se podan y devuelve False. 
 
 COMPLEJIDAD
-    Tiempo: O(9^(huecos)) en el peor caso terico. Con poda fuerte,
-    en la prctica polinomial para Sudokus reales bien planteados.
+    Tiempo: O(9^(huecos)) en el peor caso teórico. Con poda fuerte,
+    en la práctica polinomial para Sudokus reales bien planteados.
 
     Espacio: O(huecos) de pila de recursin.
 
     MEDICIN INCLUIDA: el ejercicio cuenta cuntas veces se llama a
-    `es_valido` y cuntos intentos se hacen, para mostrar el efecto
+    `es_valido` y cuántos intentos se hacen, para mostrar el efecto
     real de la poda.
 
 HEURISTICA MRV (Minimum Remaining Values)
     En vez de tomar la primera celda vacia, tomar la que tiene MENOS
-    candidatos vlidos. Reduce drsticamente el rbol de bsqueda.
+    candidatos válidos. Reduce drsticamente el rbol de búsqueda.
 
     No implementada aqu (por claridad), pero vale la pena saber que
-    existe: es la diferencia entre un solver rpido y uno lento.
+    existe: es la diferencia entre un solver rápido y uno lento.
 
 APLICACIONES
-    - Generacin de puzzles (con solucin nica garantizada).
+    - Generacin de puzzles (con solución nica garantizada).
     - Satisfaccin de restricciones (CSP) en general.
     - Planificacin y asignacin de recursos.
 
@@ -170,7 +170,7 @@ def siguiente_hueco(tablero):
 def siguiente_hueco_mrv(tablero):
     """Celda vacia con MENOS candidatos (heuristica MRV).
 
-    Ms rpida que el orden fijo, pero ms compleja. Se incluye para
+    Ms rápida que el orden fijo, pero ms compleja. Se incluye para
     poder comparar.
     """
     mejor = None
@@ -271,7 +271,7 @@ if __name__ == "__main__":
     for fila in tablero:
         print("  " + " ".join(str(x) for x in fila))
 
-    # Verificar que la solucin cumple las tres reglas
+    # Verificar que la solución cumple las tres reglas
     assert es_solucion_valida(tablero), "la solucion viola alguna regla"
     print("\nSolucin VALIDA: las tres reglas se cumplen")
 
@@ -317,7 +317,7 @@ if __name__ == "__main__":
     assert estadisticas["intentos"] == 0, "no deberia intentar nada"
     print("\nTablero ya resuelto: 0 intentos")
 
-    # Tablero sin solucin (dos 5 en la misma fila)
+    # Tablero sin solución (dos 5 en la misma fila)
     sin_solucion = copy.deepcopy(TABLERO_EJEMPLO)
     sin_solucion[0][1] = 5                          # 5 ya estaba en la fila 0
     assert resolver_sudoku(sin_solucion) is False, "no deberia resolverse"

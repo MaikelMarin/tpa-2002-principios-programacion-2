@@ -20,11 +20,11 @@ FONDO MATEMTICO
     Los niveles habituales, de menor a mayor severidad:
         DEBUG < INFO < WARNING < ERROR < CRITICAL
 
-    El nivel permite FILTRAR: en produccin se registra INFO hacia
+    El nivel permite FILTRAR: en producción se registra INFO hacia
     arriba; en desarrollo, todo. Sin niveles, un log es intil a escala.
 
 ESTRATEGIA
-    Una clase con tres mtodos pblicos (info, warning, error) que
+    Una clase con tres métodos públicos (info, warning, error) que
     comparten una implementacin comn:
 
 ```python
@@ -45,7 +45,7 @@ class SistemaLogs:
       2. encoding="utf-8": el problema de siempre.
       3. `with`: cierra siempre, incluso con excepcin.
       4. El "\\n" final: sin l, todas las lneas se pegaran.
-      5. Un solo mtodo interno (log) y tres envolturas: evita duplicar
+      5. Un solo método interno (log) y tres envolturas: evita duplicar
          el formato en cada nivel.
 
 TRAZA de uso
@@ -61,7 +61,7 @@ COMPLEJIDAD
     aunque el archivo crezca.
 
     Overhead real: abrir y cerrar el archivo en cada evento tiene
-    costo de sistema. En produccin se usa un archivo persistente o
+    costo de sistema. En producción se usa un archivo persistente o
     el mdulo logging.
 
 POR QU USAR LA BIBLIOTECA logging EN PRODUCCIN
@@ -78,10 +78,10 @@ POR QU USAR LA BIBLIOTECA logging EN PRODUCCIN
 APLICACIONES
     - Depuracin: rastrear el flujo de ejecucin.
     - Auditora: registrar quin hizo qu y cundo.
-    - Monitorizacin: detectar errores en produccin.
+    - Monitorizacin: detectar errores en producción.
 
 RELACIN CON OTROS TEMAS
-    - El tema 06 (grandes datos) muestra cmo PROCESAR logs masivos sin
+    - El tema 06 (grandes datos) muestra cómo PROCESAR logs masivos sin
       cargarlos en memoria: leer con `for linea in f`.
 """
 

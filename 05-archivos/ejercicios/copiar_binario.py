@@ -31,7 +31,7 @@ FONDO MATEMTICO
     La diferencia: para un archivo de 4 GB, la primera necesita 4 GB
     de RAM; la segunda, 1 KB. Ambas son O(n) en tiempo.
 
-    El tamao de bloque ptimo depende del sistema: 8 KB a 1 MB son
+    El tamao de bloque óptimo depende del sistema: 8 KB a 1 MB son
     valores tpicos. Demasiado pequee = muchas llamadas al sistema;
     demasiado grande = se desperdicia memoria sin ganar velocidad.
 

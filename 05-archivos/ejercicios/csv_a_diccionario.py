@@ -72,12 +72,12 @@ CASOS LMITE
     - Comillas dobles dentro de campos: csv las desescapa.
 
 APLICACIONES
-    - Importar datos de hojas de clculo.
+    - Importar datos de hojas de cálculo.
     - Intercambio de datos entre sistemas.
     - Migracin de datos.
 
 RELACIN CON OTROS TEMAS
-    - El tema 06 muestra cmo procesar CSVs que no caben en memoria.
+    - El tema 06 muestra cómo procesar CSVs que no caben en memoria.
 """
 
 

@@ -238,7 +238,9 @@ function tabla(filas) {
 async function cargarContenido() {
     let topics;
     try {
-        const resp = await fetch('../contenido.json');
+        // no-store: sin esto el navegador cachea el manifiesto y la
+        // home puede mostrar un conteo viejo tras regenerarlo.
+        const resp = await fetch('../contenido.json', { cache: 'no-store' });
         if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
         topics = await resp.json();
     } catch (err) {
@@ -518,11 +520,18 @@ function armarBuscador() {
             resultados.innerHTML = '';
             return;
         }
+        // Busca en nombre, tema Y contenido indexado (keywords).
+        // Las keywords permiten encontrar conceptos como 'backtracking'
+        // o 'poda' aunque no aparezcan en el nombre del archivo.
         const coincidencias = estado.items
-            .filter((item) =>
-                normalizar(item.name).includes(consulta) ||
-                normalizar(item.topic).includes(consulta)
-            )
+            .filter((item) => {
+                if (normalizar(item.name).includes(consulta)) return true;
+                if (normalizar(item.topic).includes(consulta)) return true;
+                const kws = item.keywords;
+                if (!kws || !kws.length) return false;
+                // keywords ya viene normalizado desde el generador
+                return kws.some((k) => k.includes(consulta));
+            })
             .slice(0, 12);
 
         resultados.innerHTML = '';
@@ -531,11 +540,15 @@ function armarBuscador() {
         } else {
             coincidencias.forEach((item, idx) => {
                 const b = el('button', 'search-result' + (idx === 0 ? ' selected' : ''));
+                // Indicar si el match fue por contenido o por nombre
+                const enNombre = normalizar(item.name).includes(consulta);
+                const etiqueta = enNombre ? escapar(item.topic)
+                    : `${escapar(item.topic)} · contenido`;
                 b.innerHTML = `
                     <span class="search-result-icon">${item.icon}</span>
                     <span class="search-result-body">
                         <span class="search-result-name">${resaltarCoincidencia(item.name, input.value.trim())}</span>
-                        <span class="search-result-topic">${escapar(item.topic)}</span>
+                        <span class="search-result-topic">${etiqueta}</span>
                     </span>`;
                 b.addEventListener('click', () => {
                     abrirArchivo(item.orden);

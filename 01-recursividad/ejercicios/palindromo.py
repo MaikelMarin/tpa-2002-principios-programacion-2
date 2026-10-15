@@ -20,7 +20,7 @@ FONDO MATEMÁTICO
         - La cadena vacía es palíndromo.
         - Una cadena de un carácter es palíndromo.
         - s es palíndromo si y solo si:
-              primer(s) == ultimo(s)   Y   el interior de s es palíndromo
+              primer(s) == último(s)   Y   el interior de s es palíndromo
 
     Es exactamente cabeza + cola, pero con cabeza = primer carácter
     y cola = todos menos el último.

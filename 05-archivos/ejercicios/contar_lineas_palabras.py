@@ -9,7 +9,7 @@ CONOCIMIENTO PREVIO NECESARIO
 
 PROBLEMA
     Calcular estadsticas bsicas de un archivo de texto: cuntas
-    lneas, cuntas palabras y cuntos caracteres tiene.
+    lneas, cuntas palabras y cuántos caracteres tiene.
 
 FONDO MATEMTICO
     Hay una trampa sutil al contar lneas.
@@ -153,7 +153,7 @@ if __name__ == "__main__":
     print(f"\nLneas vacas conservadas: {s5}")
 
     # Salto de lnea Windows: splitlines() lo maneja.
-    # NOTA: en modo TEXTO Python traduce \r\n a \n (traduccin
+    # NOTA: en modo TEXTO Python traduce \r\n a \n (traducción
     # universal), as que el contenido ledo tiene 6 caracteres, no 9.
     with open("windows.txt", "w", newline="", encoding="utf-8") as f:
         f.write("A\r\nB\r\nC\r\n")

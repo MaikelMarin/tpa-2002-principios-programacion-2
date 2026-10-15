@@ -213,8 +213,8 @@ Códigos de formato: `i` (int), `f` (float), `d` (double), `s` (string), `?` (bo
 #include <fstream>
 // Escritura binaria
 std::ofstream archivo("datos.bin", std::ios::binary);
-int numero = 42;
-archivo.write(reinterpret_cast<char*>(&numero), sizeof(numero));
+int número = 42;
+archivo.write(reinterpret_cast<char*>(&número), sizeof(número));
 
 // Lectura binaria
 std::ifstream archivo("datos.bin", std::ios::binary);

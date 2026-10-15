@@ -30,15 +30,15 @@ with open("app.log", "a", encoding="utf-8") as f:
     f.write("[evento] mensaje\n")
 ```
 
-    Es una sola operacin: abrir en modo append. No hace falta leer el
+    Es una sola operación: abrir en modo append. No hace falta leer el
     archivo, buscar el final, ni posicionarse: el sistema operativo lo
     hace.
 
 TRAZA
     Estado inicial:  "lnea 1\n"
 
-    open("f.txt", "a")   -> puntero al final (posicin 8)
-    f.write("lnea 2\n")  -> escribe en la posicin 8
+    open("f.txt", "a")   -> puntero al final (posición 8)
+    f.write("lnea 2\n")  -> escribe en la posición 8
 
     Estado final:  "lnea 1\nlnea 2\n"
 
@@ -52,7 +52,7 @@ DEMOSTRACIN DE CORRECCIN
     El modo "a" garantiza por especificacin POSIX que toda escritura
     ocurre al final del archivo. Como cada llamada aade bytes al
     final, el contenido previo queda intacto y el nuevo se acumula
-    detrs. Luego el resultado es la concatenacin en orden. 
+    detrás. Luego el resultado es la concatenacin en orden. 
 
 CASOS LMITE
     - Archivo inexistente: se CREA (a diferencia de "r").
@@ -60,7 +60,7 @@ CASOS LMITE
     - Contenido sin "\n": se pega al final de la ltima lnea.
 
 APLICACIONES
-    - Logs de aplicacin y de servidor.
+    - Logs de aplicación y de servidor.
     - Acumular resultados de procesamiento por lotes.
     - Archivos de auditora.
 

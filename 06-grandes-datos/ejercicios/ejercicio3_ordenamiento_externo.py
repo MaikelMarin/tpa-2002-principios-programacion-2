@@ -22,7 +22,7 @@ FONDO MATEMTICO
     FASE 2 — Mezclar (merge k-vas):
       1. Abrir todos los temporales.
       2. Mantener un heap con el primer elemento de cada archivo.
-      3. Extraer el mnimo, escribirlo a la salida, y cargar el
+      3. Extraer el mínimo, escribirlo a la salida, y cargar el
          siguiente elemento de ESE archivo.
 
     POR QU FUNCIONA: la fase 2 lee cada archivo SECUENCIALMENTE. No
@@ -60,8 +60,8 @@ DEMOSTRACIN DE CORRECCIN
     Invariante: el heap contiene siempre el menor elemento NO ESCRITO
     de cada archivo, y todos los archivos estn ordenados.
 
-    - Al extraer el mnimo del heap, es el mnimo de todos los
-      pendientes (porque cada archivo aporta su mnimo pendiente y el
+    - Al extraer el mínimo del heap, es el mínimo de todos los
+      pendientes (porque cada archivo aporta su mínimo pendiente y el
       heap los compara).
     - Escribirlo y cargar el siguiente de ese archivo preserva el
       invariante.
@@ -79,8 +79,8 @@ COMPLEJIDAD
 
 PARALELIZACIN
     La fase 1 es trivialmente paralela: cada bloque se ordena en un
-    proceso/ncleo independiente. Es lo que hace la versin con
-    multiprocessing (solucin 3).
+    proceso/ncleo independiente. Es lo que hace la versión con
+    multiprocessing (solución 3).
 
 APLICACIONES
     - Bases de datos ordenando tablas que exceden la memoria.
@@ -101,7 +101,7 @@ import os
 def ordenamiento_externo(entrada, salida, bloque=10000):
     """Ordena un archivo de nmeros por external sort. O(N log(N/M)).
 
-    `bloque` es cuntos nmeros caben en memoria a la vez.
+    `bloque` es cuántos nmeros caben en memoria a la vez.
     """
     # ---------- FASE 1: dividir, ordenar, escribir temporales ----------
     temporales = []
@@ -141,7 +141,7 @@ def ordenamiento_externo(entrada, salida, bloque=10000):
             if linea:
                 heapq.heappush(heap, (int(linea), i))
 
-        # Extraer siempre el mnimo
+        # Extraer siempre el mínimo
         while heap:
             valor, i = heapq.heappop(heap)
             out.write(f"{valor}\n")

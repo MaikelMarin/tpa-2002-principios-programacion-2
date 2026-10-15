@@ -847,7 +847,7 @@ función backtrack(estado):
 
 Si una rama prometedora falla y no se restaura el estado, la exploración contina con datos corruptos. Los síntomas son resultados duplicados, soluciones fantasma, o paths que pasan por celdas prohibidas.
 
-En el laberinto del proyecto hubo exactamente ese error durante el desarrollo: se comprobaba "¿es la salida?" **antes** de "¿es una pared?", así que un laberinto cuya salida fuese pared devolva un camino "vlido" que terminaba dentro de la pared. **Las podas deben ir primero y el caso de xito despus.**
+En el laberinto del proyecto hubo exactamente ese error durante el desarrollo: se comprobaba "¿es la salida?" **antes** de "¿es una pared?", así que un laberinto cuya salida fuese pared devolva un camino "válido" que terminaba dentro de la pared. **Las podas deben ir primero y el caso de xito después.**
 
 **El segundo error clsico: podar con una suposicin no declarada.**
 

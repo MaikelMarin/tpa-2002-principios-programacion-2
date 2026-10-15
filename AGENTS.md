@@ -66,7 +66,7 @@ Progra 2/
 │       ├── binaria_rotada.py
 │       └── ordenamiento_hibrido.py
 │
-├── 03-arboles/
+├── 03-árboles/
 │   ├── README.md
 │   ├── teoria.md
 │   └── ejercicios/

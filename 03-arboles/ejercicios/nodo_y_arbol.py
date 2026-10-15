@@ -39,10 +39,10 @@ class ArbolBinario:
 ```
 
 TRAZA DE CONSTRUCCIÓN
-    arbol = ArbolBinario()          raiz = None
-    arbol.insertar(5)               raiz = Nodo(5)
-    arbol.insertar(3)               3 < 5 → raiz.izquierdo = Nodo(3)
-    arbol.insertar(8)               8 > 5 → raiz.derecho = Nodo(8)
+    árbol = ArbolBinario()          raiz = None
+    árbol.insertar(5)               raiz = Nodo(5)
+    árbol.insertar(3)               3 < 5 → raiz.izquierdo = Nodo(3)
+    árbol.insertar(8)               8 > 5 → raiz.derecho = Nodo(8)
 
     Estructura resultante:
             5

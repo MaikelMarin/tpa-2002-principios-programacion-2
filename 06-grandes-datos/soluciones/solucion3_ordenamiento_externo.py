@@ -1,11 +1,11 @@
 r"""
-Ejercicio 3 (solucin): Ordenamiento externo paralelo
+Ejercicio 3 (solución): Ordenamiento externo paralelo
 Dificultad: Experto
 
 CONOCIMIENTO PREVIO NECESARIO
     - Ejercicio 3 (enunciado): el algoritmo secuencial.
     - Multiprocessing en Python.
-    - Anlisis del speedup mximo (Ley de Amdahl).
+    - Anlisis del speedup máximo (Ley de Amdahl).
 
 PROBLEMA
     Acelerar la fase 1 del ordenamiento externo paralelizando la
@@ -16,7 +16,7 @@ FONDO MATEMTICO
       Fase 1 (ordenar bloques): PARALELA. Cada bloque es independiente.
       Fase 2 (mezclar): SECUENCIAL. Hay un nico flujo de salida.
 
-    Por eso el speedup mximo est limitado. Si la fase 1 cuesta una
+    Por eso el speedup máximo est limitado. Si la fase 1 cuesta una
     fraccin f del tiempo total, la fase 2 cuesta (1-f) y NO se puede
     acelerar. Con p procesos:
 
@@ -73,7 +73,7 @@ COMPLEJIDAD
     Fase 2: O(N log k) tiempo, secuencial.
     Total:  O(N/p + N log k)
 
-    En la prctica, el overhead de serializacin y la contencin por
+    En la práctica, el overhead de serializacin y la contencin por
     E/S reducen la ganancia. Medir es obligatorio.
 
 CUANDO PARALELIZAR NO SIRVE

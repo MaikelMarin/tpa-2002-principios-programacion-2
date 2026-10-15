@@ -60,7 +60,7 @@ def comprimir_archivo(origen, destino):
     una marca. El round-trip fallara.
 
     Con pares fijos (longitud, byte) el formato es INSENSIBLE al
-    contenido: cualquier byte es vlido como dato.
+    contenido: cualquier byte es válido como dato.
 
 TRAZA de compresin de "AAABBB"
     'A' repetido 3 veces -> escape(0) + contador(3) + byte('A')
@@ -80,7 +80,7 @@ CASOS LMITE
     - Un solo byte: se escribe sin contador.
     - Rachas de ms de 65,535: el contador de 2 bytes desborda. Hay que
       partirlo en varias rachas.
-    - Datos sin repeticin: el archivo CRECE.
+    - Datos sin repetición: el archivo CRECE.
 
 APLICACIONES
     - Formatos BMP y TIFF tienen compresin RLE nativa.
@@ -111,7 +111,7 @@ def comprimir_rle(origen, destino):
             siguiente = src_.read(1)
 
             # Cerrar la racha si cambi el byte, si se alcanz el
-            # mximo de 255, o si se termin el archivo.
+            # máximo de 255, o si se termin el archivo.
             if siguiente != bloque or contador == MAX_RACHA:
                 dst.write(bytes([contador]))
                 dst.write(bloque)
@@ -177,7 +177,7 @@ if __name__ == "__main__":
         assert f.read() == b"X"
     print("Un solo byte: round-trip correcto")
 
-    # Datos SIN repeticin: RLE empeora el tamao
+    # Datos SIN repetición: RLE empeora el tamao
     with open("aleatorio.bin", "wb") as f:
         f.write(os.urandom(500))                 # bytes aleatorios
     comprimir_rle("aleatorio.bin", "aleatorio_rle.bin")

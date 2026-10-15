@@ -52,7 +52,7 @@ TRAZA del efecto del buffer
     Con bufer de 1000: 1,000 llamadas a f.writelines()
 
     El bufer interno de Python (buffering=8192) ya agrupa, pero el
-    bufer manual reduce adems el overhead de la API de Python.
+    bufer manual reduce además el overhead de la API de Python.
 
 COMPLEJIDAD
     Tiempo: O(n). Generar cada lnea es O(1), en total O(n).

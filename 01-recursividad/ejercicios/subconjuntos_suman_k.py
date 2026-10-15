@@ -13,23 +13,23 @@ PROBLEMA
     Dada una lista de nmeros y un objetivo k, encontrar TODOS los
     subconjuntos cuyos elementos sumen exactamente k.
 
-        numeros = [3, 34, 4, 12, 5, 2],  k = 9
+        números = [3, 34, 4, 12, 5, 2],  k = 9
         soluciones: [4, 5] y [3, 4, 2]
 
 FONDO MATEMTICO
-    El espacio de bsqueda es el conjunto de partes: 2^n subconjuntos.
+    El espacio de búsqueda es el conjunto de partes: 2^n subconjuntos.
     Cada elemento tiene exactamente dos opciones:
 
-        INCLUIRLO    suma += numero, se aade a la seleccin
+        INCLUIRLO    suma += número, se aade a la seleccin
         NO INCLUIRLO la suma no cambia
 
     Eso da un rbol binario de 2^n hojas. La pregunta interesante es:
-    cmo evitar recorrerlo entero?
+    cómo evitar recorrerlo entero?
 
     LA PODA (y por qu funciona aqu):
         Si suma_parcial + numero_actual > k, NO incluirlo.
 
-    Pero ATENCIN: esa poda solo es vlida si todos los nmeros son
+    Pero ATENCIN: esa poda solo es válida si todos los nmeros son
     POSITIVOS. Con negativos, aadir un elemento podra reducir la suma
     y volver a acercarse al objetivo, as que podar sera incorrecto.
 
@@ -45,23 +45,23 @@ def backtrack(indice, suma, seleccion):
         # NO retornar: puede haber otro elemento que sume 0
     if indice == n:
         return
-    if suma + numeros[indice] <= k:      # PODA (solo con positivos)
+    if suma + números[indice] <= k:      # PODA (solo con positivos)
         seleccion.append(indice)          # HACER
-        backtrack(indice + 1, suma + numeros[indice], seleccion)
+        backtrack(indice + 1, suma + números[indice], seleccion)
         seleccion.pop()                   # DESHACER
     backtrack(indice + 1, suma, seleccion)  # rama "no incluirlo"
 ```
 
-    DETALLE SUTIL: al encontrar una solucin NO se retorna. Hay que
+    DETALLE SUTIL: al encontrar una solución NO se retorna. Hay que
     seguir explorando por dos motivos:
-      1. Puede existir otra solucin con el mismo prefijo.
+      1. Puede existir otra solución con el mismo prefijo.
       2. Si hay un 0 en la lista, incluirlo o no da dos soluciones
          distintas con la misma suma.
 
     Ese "no retornar" es la diferencia con problemas como las N
-    reinan, donde una solucin completa s termina la rama.
+    reinan, donde una solución completa s termina la rama.
 
-TRAZA con numeros = [2, 3, 4], k = 5
+TRAZA con números = [2, 3, 4], k = 5
     backtrack(0, 0, [])
       rama incluir 2: seleccion=[0], suma=2
         backtrack(1, 2, [0])
@@ -80,13 +80,13 @@ TRAZA con numeros = [2, 3, 4], k = 5
 
     Solucin encontrada: [2, 3] (ndices 0 y 1).
 
-    Note cunto se pod: de 8 subconjuntos posibles solo se exploraron
+    Note cuánto se pod: de 8 subconjuntos posibles solo se exploraron
     unos pocos caminos.
 
 DEMOSTRACIN DE CORRECCIN
     Por induccin sobre el nmero de elementos procesados.
     Caso base: indice == n. Ya no hay decisiones que tomar; si la
-    suma es k, la seleccin actual es una solucin vlida.
+    suma es k, la seleccin actual es una solución válida.
     Paso: para el elemento en `indice`, se exploran las dos nicas
     opciones posibles (incluirlo o no). Si incluirlo supera k, se poda
     esa rama, lo cual es correcto SOLO si los nmeros son positivos
@@ -97,7 +97,7 @@ DEMOSTRACIN DE CORRECCIN
 
 COMPLEJIDAD
     Tiempo: O(2^n) en el peor caso. Con poda, mucho menos en la
-    prctica (depende de cunto se poda).
+    práctica (depende de cuánto se poda).
     Espacio: O(n) de pila + O(n) por la seleccin parcial.
 
     CON PROGRAMACIN DINMICA baja a O(n*k): el par (indice, suma
@@ -106,14 +106,14 @@ COMPLEJIDAD
 
 LA RESTRICCIN DE POSITIVOS
     Con nmeros negativos la poda es INVLIDA. Ejemplo:
-        numeros = [5, -3, 7], k = 9
+        números = [5, -3, 7], k = 9
         suma 5, incluir -3 -> suma 2, incluir 7 -> 9. SOLUCION.
 
     Con la poda ingenua, al llegar a suma 5 + (-3) = 2 no se poda nada
     (2 <= 9), as que funcionara aqu. Pero considere:
-        numeros = [10, -8, 7], k = 9
+        números = [10, -8, 7], k = 9
         10 + (-8) = 2, +7 = 9. Si la poda fuera "suma > k, cortar",
-        al tener 10 > 9 se podara y se perdera la solucin.
+        al tener 10 > 9 se podara y se perdera la solución.
 
     Por eso la poda correcta es: podar solo si suma + elemento > k
     **y** todos los elementos restantes son positivos.
@@ -147,13 +147,13 @@ def subconjuntos_que_suman(numeros, objetivo):
         if indice == n:
             return
 
-        # PODA: solo incluir si no supera el objetivo (vlido con positivos)
+        # PODA: solo incluir si no supera el objetivo (válido con positivos)
         if suma_actual + numeros[indice] <= objetivo:
             seleccion.append(numeros[indice])              # HACER
             backtrack(indice + 1, suma_actual + numeros[indice], seleccion)
             seleccion.pop()                                # DESHACER
 
-        # Rama "no incluir este elemento" (siempre vlida)
+        # Rama "no incluir este elemento" (siempre válida)
         backtrack(indice + 1, suma_actual, seleccion)
 
     backtrack(0, 0, [])
@@ -187,10 +187,10 @@ if __name__ == "__main__":
     print(f"Numeros: {numeros}, objetivo: {objetivo}")
     print(f"Soluciones: {soluciones}")
 
-    # Verificar cada solucin
+    # Verificar cada solución
     for sub in soluciones:
         assert sum(sub) == objetivo, f"{sub} no suma {objetivo}"
-        # Son subconjuntos vlidos (elementos de la lista original)
+        # Son subconjuntos válidos (elementos de la lista original)
         for elem in sub:
             assert elem in numeros
     # Las dos soluciones esperadas
@@ -199,7 +199,7 @@ if __name__ == "__main__":
     assert (2, 3, 4) in esperadas or (3, 4, 2) in esperadas or (2, 4, 3) in esperadas, \
         "falta [3, 4, 2]"
 
-    # Sin solucin posible
+    # Sin solución posible
     assert subconjuntos_que_suman([1, 2, 3], 100) == []
     print("Objetivo inalcanzable: lista vacia")
 
@@ -260,7 +260,7 @@ if __name__ == "__main__":
     print(f"  Reduccion: {(2**21 - 1) / llamadas_poda:,.0f}x menos caminos")
     assert llamadas_poda < 2 ** 21 - 1
 
-    # La versin general (sin poda) da el mismo resultado con positivos
+    # La versión general (sin poda) da el mismo resultado con positivos
     assert {tuple(sorted(s)) for s in subconjuntos_que_suman_general(numeros, objetivo)} \
         == esperadas
     print("La version general coincide con la podada (con positivos)")

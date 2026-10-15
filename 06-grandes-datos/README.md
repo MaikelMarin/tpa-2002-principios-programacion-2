@@ -39,7 +39,7 @@ disco 100000x    paralela   k-vas   Amdahl    reduce
 | **Ordenamiento** | External sort: dos fases, heap de k vas, costo 4N | E3, S3 |
 | **Paralelismo** | Fase 1 en varios ncleos y sus lmites reales | S3 |
 
-E = enunciado (`ejercicios/`), S = solucin (`soluciones/`)
+E = enunciado (`ejercicios/`), S = solución (`soluciones/`)
 
 ## Lista de ejercicios y ubicacin de soluciones
 
@@ -49,7 +49,7 @@ E = enunciado (`ejercicios/`), S = solucin (`soluciones/`)
 | 2 | Anlisis de ventas | Intermedio | [`ejercicios/ejercicio2_analisis_ventas.py`](ejercicios/ejercicio2_analisis_ventas.py) | [`soluciones/solucion2_analisis_ventas.py`](soluciones/solucion2_analisis_ventas.py) |
 | 3 | Ordenamiento externo | Experto | [`ejercicios/ejercicio3_ordenamiento_externo.py`](ejercicios/ejercicio3_ordenamiento_externo.py) | [`soluciones/solucion3_ordenamiento_externo.py`](soluciones/solucion3_ordenamiento_externo.py) |
 
-Cada archivo incluye conocimiento previo, fondo matemtico, estrategia, traza, anlisis de coste, casos lmite y verificacin experimental.
+Cada archivo incluye conocimiento previo, fondo matemtico, estrategia, traza, anlisis de coste, casos lmite y verificación experimental.
 
 ## Ruta de aprendizaje recomendada
 

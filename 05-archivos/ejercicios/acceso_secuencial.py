@@ -12,14 +12,14 @@ PROBLEMA
 
 FONDO MATEMTICO
     El acceso secuencial recorre el archivo EN ORDEN. Es el modo ms
-    rpido posible en disco, por una razn fsica:
+    rápido posible en disco, por una razn fsica:
 
     - Un disco duro mecnico (HDD) tiene un cabezal que se mueve
       fsicamente. Leer secuencialmente evita esos saltos (seeks).
     - Un SSD lee pginas, y el acceso secuencial aprovecha el
       read-ahead que hace el controlador.
 
-    Resultado: el modo secuencial puede ser 10-100x ms rpido que el
+    Resultado: el modo secuencial puede ser 10-100x ms rápido que el
     aleatorio sobre el mismo archivo, aunque ambos sean O(n) en
     complejidad.
 
@@ -122,8 +122,8 @@ if __name__ == "__main__":
     assert list(acceso_secuencial_lectura("vacio.txt")) == []
     print("Archivo vacio: lista vacia")
 
-    acceso_secuencial_escritura("uno.txt", ["unico"])
-    assert list(acceso_secuencial_lectura("uno.txt")) == ["unico"]
+    acceso_secuencial_escritura("uno.txt", ["único"])
+    assert list(acceso_secuencial_lectura("uno.txt")) == ["único"]
 
     # El generador NO acumula: memoria constante
     import sys

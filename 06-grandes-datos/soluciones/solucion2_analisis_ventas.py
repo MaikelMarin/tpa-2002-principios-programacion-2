@@ -1,9 +1,9 @@
 r"""
-Ejercicio 2 (solucin): Anlisis de ventas con streaming
+Ejercicio 2 (solución): Anlisis de ventas con streaming
 Dificultad: Intermedio
 
 CONOCIMIENTO PREVIO NECESARIO
-    - Ejercicio 2 (enunciado): la versin base.
+    - Ejercicio 2 (enunciado): la versión base.
     - Generadores (00-fundamentos 10.4).
 
 PROBLEMA
@@ -61,7 +61,7 @@ COMPLEJIDAD
     Ambas O(n) en tiempo. La diferencia de 10,000x est en MEMORIA.
 
 CUANDO EL STREAMING NO SIRVE
-    Si la operacin NO es incremental:
+    Si la operación NO es incremental:
       - Mediana exacta: requiere todos los datos.
       - Ordenar: requiere todos los datos (usar external sort).
       - Join de dos archivos por clave: requiere ndice o orden.

@@ -3,7 +3,7 @@ Ejercicio 18: Coloreo de grafos
 Dificultad: Avanzado
 
 CONOCIMIENTO PREVIO NECESARIO
-    - Backtracking y la plantilla HACER/EXPLORAR/DESHACER (seccin 4.2).
+    - Backtracking y la plantilla HACER/EXPLORAR/DESHACER (sección 4.2).
     - Grafos y lista de adyacencia (tema 04, ejercicio 1).
     - Grafos bipartitos y coloreo BFS (tema 04, ejercicio 11).
 
@@ -13,7 +13,7 @@ PROBLEMA
     colores.
 
 FONDO MATEMTICO
-    EL PROBLEMA DEL NUMERO CROMATICO: cul es el mnimo nmero de
+    EL PROBLEMA DEL NUMERO CROMATICO: cul es el mínimo nmero de
     colores necesarios para colorear un grafo?
 
     Es uno de los problemas NP-completos clsicos. No se conoce
@@ -99,7 +99,7 @@ DEMOSTRACIN DE CORRECCIN
 
     - Caso base: todos los vrtices coloreados. Cada asignacin respet
       la poda (ningn vecino comparta color), luego es un coloreo
-      vlido.
+      válido.
     - Paso: para el vrtice actual, se prueban los m colores. Los
       inseguros se descartan correctamente (habra conflicto). Los
       seguros se exploran recursivamente.
@@ -110,12 +110,12 @@ DEMOSTRACIN DE CORRECCIN
 
 COMPLEJIDAD
     Tiempo: O(m^V) en el peor caso (m opciones por vrtice, V vrtices).
-    Con poda, mucho menos en la prctica.
+    Con poda, mucho menos en la práctica.
 
     Espacio: O(V) de pista + O(V) para el mapa de colores.
 
     Para V=20, m=3: 3^20 = 3.500 millones de combinaciones. Con poda
-    fuerte, en la prctica se resuelve rapIdsimo.
+    fuerte, en la práctica se resuelve rapIdsimo.
 
 APLICACIONES
     - Asignacin de frecuencias en redes de radio.
@@ -194,11 +194,11 @@ def colorear_grafo(grafo, m):
 
 
 def numero_cromatico_minimo(grafo, max_colores=None):
-    """Encuentra el mnimo nmero de colores probando m = 1, 2, 3, ...
+    """Encuentra el mínimo nmero de colores probando m = 1, 2, 3, ...
 
     Casos especiales:
       - Grafo vaco (sin vrtices): 0 colores.
-      - Con al menos un vrtice: como mnimo 1 color.
+      - Con al menos un vrtice: como mínimo 1 color.
     """
     vertices = grafo.vertices
     if not vertices:
@@ -225,7 +225,7 @@ if __name__ == "__main__":
     print(f"Cuadrado (ciclo par) con 2 colores: {colores}")
     assert colores is not None, "un ciclo par es 2-coloreable"
 
-    # Verificar que es un coloreo vlido
+    # Verificar que es un coloreo válido
     for u in cuadrado.vertices:
         for v in cuadrado.vecinos(u):
             assert colores[u] != colores[v], f"{u} y {v} comparten color"
@@ -255,7 +255,7 @@ if __name__ == "__main__":
     assert m_cuadrado == 2
     assert m_triangulo == 3
 
-    # --- Grafo completo de n vrtices: numero cromatico = n ---
+    # --- Grafo completo de n vrtices: número cromatico = n ---
     for n in [3, 4, 5]:
         completo = Grafo()
         for u in range(n):

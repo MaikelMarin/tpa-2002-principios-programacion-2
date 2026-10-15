@@ -59,7 +59,7 @@ COMPLEJIDAD
     leer archivo            O(profundidad)
     listar directorio       O(hijos directos)
     eliminar archivo        O(profundidad)
-    eliminar directorio     O(tamano del subarbol)
+    eliminar directorio     O(tamano del subárbol)
     busqueda por nombre     O(n) peor caso (recorrer todo)
 
     Note: todas las operaciones trabajan sobre la PROFUNDIDAD de la

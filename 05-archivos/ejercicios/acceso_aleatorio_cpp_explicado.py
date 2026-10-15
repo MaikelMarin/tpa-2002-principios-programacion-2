@@ -8,12 +8,12 @@ CONOCIMIENTO PREVIO NECESARIO
     - `fstream` de C++ y sus modos.
 
 PROBLEMA
-    Modificar una regin especfica de un archivo binario en C++.
+    Modificar una regin específica de un archivo binario en C++.
 
 POR QU INCLUIR C++ AQU
     Este es el nico ejercicio del proyecto en C++. Su propsito es
     mostrar que el acceso aleatorio NO es una caracterstica de Python:
-    es una operacin del SISTEMA OPERATIVO (lseek + read/write), y todos
+    es una operación del SISTEMA OPERATIVO (lseek + read/write), y todos
     los lenguajes la exponen de forma similar.
 
     Las diferencias entre lenguajes aqu son de sintaxis, no de concepto.
@@ -31,7 +31,7 @@ COMPARACIN PYTHON vs C++
       - seekp / tellp  para ESCRITURA (put)
     Python usa un nico puntero para ambas.
 
-    En C++ el cierre es automtico por RAII (el destructor del objeto
+    En C++ el cierre es automático por RAII (el destructor del objeto
     archivo), igual que `with` en Python.
 
 QU stream PARA QU
@@ -58,7 +58,7 @@ int main() {
     escritura.write(datos, 10);
     escritura.close();
 
-    // Leer desde la posicin 3
+    // Leer desde la posición 3
     std::ifstream lectura("test.bin", std::ios::binary);
     lectura.seekg(3);                       // seek para LECTURA
     char buffer[5] = {0};
@@ -66,7 +66,7 @@ int main() {
     std::cout << "Posicin 3: " << buffer << std::endl;   // DEFG
     lectura.close();
 
-    // Escribir en la posicin 5 SIN truncar
+    // Escribir en la posición 5 SIN truncar
     std::fstream rw("test.bin",
                     std::ios::binary | std::ios::in | std::ios::out);
     rw.seekp(5);                            // seek para ESCRITURA
@@ -87,7 +87,7 @@ RESULTADO ESPERADO (idntico al ejercicio de Python)
     Tras escribir "XY" en pos 5: ABCDE-XY-HIJ = ABCDEXYHIJ
 
     Note que es EXACTAMENTE el mismo resultado que el ejercicio 8 del
-    tema 05: la posicin 5 corresponde al byte F, y escribir 2 bytes
+    tema 05: la posición 5 corresponde al byte F, y escribir 2 bytes
     consume las posiciones 5 y 6 (F y G).
 
 COMPILACIN Y EJECUCIN
@@ -136,7 +136,7 @@ print("  ./acceso")
 assert os.path.exists(RUTA_CPP), \
     f"falta el archivo acceso_aleatorio_cpp.cpp en {os.path.dirname(RUTA_CPP)}"
 
-# Verificar que tiene el contenido mnimo esperado
+# Verificar que tiene el contenido mínimo esperado
 with open(RUTA_CPP, encoding="utf-8") as f:
     codigo_cpp = f.read()
 

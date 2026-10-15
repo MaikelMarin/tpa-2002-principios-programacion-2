@@ -1,9 +1,9 @@
 r"""
-Ejercicio 1 (solucin): Generacin masiva optimizada con bufer
+Ejercicio 1 (solución): Generacin masiva optimizada con bufer
 Dificultad: Bsico
 
 CONOCIMIENTO PREVIO NECESARIO
-    - Ejercicio 1 (enunciado): la versin base.
+    - Ejercicio 1 (enunciado): la versión base.
     - Escritura con bufer y su efecto medible.
 
 PROBLEMA
@@ -146,7 +146,7 @@ if __name__ == "__main__":
     print(f"  Lneas:    {lineas:,} (completo, sin datos perdidos)")
     os.remove("datos_masivos.csv")
 
-    # --- Comparacin con la versin sin bufer ---
+    # --- Comparacin con la versión sin bufer ---
     random.seed(1)
     inicio = time.time()
     generar_sin_buffer("datos_ingenuos.csv", n)
@@ -158,7 +158,7 @@ if __name__ == "__main__":
     if t_opt > 0:
         print(f"  Mejora:  {t_sin / t_opt:.2f}x mas rapido con bufer")
 
-    # --- El ultimo bloque parcial se escribe ---
+    # --- El último bloque parcial se escribe ---
     for n_prueba, buffer_esp in [(2500, 1000), (999, 1000), (1, 1000), (1000, 1000)]:
         generar_archivo_optimizado("parcial.csv", n_prueba, tamano_buffer=buffer_esp)
         lineas = sum(1 for _ in open("parcial.csv", encoding="utf-8"))

@@ -3,7 +3,7 @@ Ejercicio 16: Laberinto (backtracking sobre cuadrcula)
 Dificultad: Intermedio
 
 CONOCIMIENTO PREVIO NECESARIO
-    - Backtracking y la plantilla HACER/EXPLORAR/DESHACER (seccin 4.2).
+    - Backtracking y la plantilla HACER/EXPLORAR/DESHACER (sección 4.2).
     - Matrices / listas de listas (00-fundamentos 8.2).
     - DFS sobre grafos (tema 04): un laberinto ES un grafo.
 
@@ -24,7 +24,7 @@ FONDO MATEMTICO
     queremos el CAMINO, y para eso hace falta backtracking puro.
 
     EL ESTADO del backtracking son dos cosas:
-      1. La posicin actual (fila, col).
+      1. La posición actual (fila, col).
       2. El conjunto de celdas ya visitadas.
 
     La segunda es necesaria para no entrar en ciclo infinito: sin
@@ -34,7 +34,7 @@ FONDO MATEMTICO
     BUG CLSICO EVITADO AQUI: el orden de las comprobaciones.
     Si se verifica "es la salida?" ANTES de "es una pared?", un
     laberinto cuya celda de salida sea pared devuelve un camino
-    "vlido" que termina dentro de una pared. Las podas deben ir
+    "válido" que termina dentro de una pared. Las podas deben ir
     PRIMERO y el caso de xito DESPUS.
 
 ESTRATEGIA
@@ -42,7 +42,7 @@ ESTRATEGIA
 ```python
 def resolver(laberinto, fila, col, visitadas, camino):
     if (fila, col) == (salida_f, salida_c):
-        return True                                # solucin completa
+        return True                                # solución completa
     if fuera_de_rango(fila, col): return False     # poda: limites
     if laberinto[fila][col] == 1: return False     # poda: pared
     if (fila, col) in visitadas: return False      # poda: ya visitada
@@ -59,10 +59,10 @@ def resolver(laberinto, fila, col, visitadas, camino):
 ```
 
     Note la asimetra con las N reinas:
-      - Si una rama lleva a la solucin, se retorna INMEDIATAMENTE y NO
+      - Si una rama lleva a la solución, se retorna INMEDIATAMENTE y NO
         se deshace el camino.
       - Si una rama es un callejn sin salida, se DESHACE y se prueba
-        otra direccin.
+        otra dirección.
 
     Ese "deshacer solo en el fracaso" es la esencia del backtracking.
 
@@ -72,10 +72,10 @@ TRAZA sobre la cuadrcula 3x3
     1 0 0        (entrada en 0,0, salida en 2,2)
 
     resolver(0,0): libre, no visitada. Marcar. Camino=[(0,0)]
-      direccin arriba   -> fuera de rango, podado
-      direccin abajo    -> (1,0) es pared (1), podado
-      direccin izq      -> fuera de rango, podado
-      direccin der      -> (0,1) libre -> resolver(0,1)
+      dirección arriba   -> fuera de rango, podado
+      dirección abajo    -> (1,0) es pared (1), podado
+      dirección izq      -> fuera de rango, podado
+      dirección der      -> (0,1) libre -> resolver(0,1)
         marcar. Camino=[(0,0),(0,1)]
           arriba  -> fuera de rango
           abajo   -> (1,1) libre -> resolver(1,1)
@@ -97,10 +97,10 @@ DEMOSTRACIN DE CORRECCIN
     Por induccin sobre la longitud del camino.
 
     - Si la celda actual es la salida, se devuelve el camino, que es
-      vlido por construccin (cada paso aadi una celda adyacente
+      válido por construcción (cada paso aadi una celda adyacente
       libre).
     - Si no, se exploran las 4 direcciones. Cada llamada recursiva
-      parte de una celda adyacente vlida, as que cualquier solucin
+      parte de una celda adyacente válida, as que cualquier solución
       encontrada es un camino real.
     - El conjunto `visitadas` garantiza que ninguna celda se repita,
       luego el camino es SIMPLE (sin ciclos) y de longitud finita.
@@ -109,13 +109,13 @@ DEMOSTRACIN DE CORRECCIN
     devuelve False. 
 
 COMPLEJIDAD
-    Tiempo: O(4^(n*m)) en el peor caso terico (4 direcciones por
-    celda). En la prctica, con `visitadas`, cada celda se procesa
+    Tiempo: O(4^(n*m)) en el peor caso teórico (4 direcciones por
+    celda). En la práctica, con `visitadas`, cada celda se procesa
     como mucho una vez por camino, y el nmero de caminos explorados
     es polinomial en laberintos normales.
 
     Ms precisamente: O(C * n * m) donde C es el nmero de caminos
-    simples que se exploran antes de encontrar la solucin.
+    simples que se exploran antes de encontrar la solución.
 
     Espacio: O(n * m) para `visitadas` y la pila de recursin.
 
@@ -123,7 +123,7 @@ COMPLEJIDAD
     garantiza O(V+E). El backtracking encuentra UN camino, sin
     garantizar que sea el ms corto.
 
-    REGLA: si solo importa la longitud mnima, use BFS. Si importa
+    REGLA: si solo importa la longitud mínima, use BFS. Si importa
     explorar todas las rutas posibles o hay restricciones complejas,
     use backtracking.
 
@@ -162,7 +162,7 @@ def resolver_laberinto(laberinto, entrada=(0, 0), salida=None):
     camino = []
 
     def backtrack(fila, col):
-        # --- Podas PRIMERO, xito despus ---
+        # --- Podas PRIMERO, xito después ---
         # El orden importa: si la celda de SALIDA es una pared, no debe
         # aceptarse como llegada. Verificar el xito antes que la pared
         # hara que el algoritmo "llegue" a una pared.
@@ -246,7 +246,7 @@ if __name__ == "__main__":
     assert camino[0] == (0, 0), "empieza en la entrada"
     assert camino[-1] == (4, 4), "termina en la salida"
 
-    # El camino es vlido: pasos adyacentes, celdas libres, sin repetir
+    # El camino es válido: pasos adyacentes, celdas libres, sin repetir
     for (f1, c1), (f2, c2) in zip(camino, camino[1:]):
         assert abs(f1 - f2) + abs(c1 - c2) == 1, "paso no adyacente"
         assert lab[f2][c2] == 0, "pasa por una pared"
@@ -280,14 +280,14 @@ if __name__ == "__main__":
     # En un 2x2 abierto hay exactamente 2 caminos simples
     assert len(caminos) == 2, f"esperaba 2, hay {len(caminos)}"
 
-    # Todos los caminos son vlidos y distintos
+    # Todos los caminos son válidos y distintos
     for p in caminos:
         assert p[0] == (0, 0) and p[-1] == (1, 1)
         assert len(p) == len(set(p))
         for (f1, c1), (f2, c2) in zip(p, p[1:]):
             assert abs(f1 - f2) + abs(c1 - c2) == 1
 
-    # Verificacin exhaustiva: el camino encontrado es siempre vlido
+    # Verificacin exhaustiva: el camino encontrado es siempre válido
     import random
     random.seed(161)
     verificados = 0
