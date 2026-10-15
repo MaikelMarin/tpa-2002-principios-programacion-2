@@ -240,7 +240,7 @@ async function cargarContenido() {
     try {
         // no-store: sin esto el navegador cachea el manifiesto y la
         // home puede mostrar un conteo viejo tras regenerarlo.
-        const resp = await fetch('../contenido.json', { cache: 'no-store' });
+        const resp = await fetch('../contenido.json', { cache: 'no-cache' });
         if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
         topics = await resp.json();
     } catch (err) {
